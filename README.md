@@ -1,34 +1,6 @@
-## 目前主要用来记录项目进度：
-
-以下是每个文件或模块的简单描述：
-
-* app.py：这是主应用文件，其中包含 Streamlit 界面的创建和主流程的控制。
-
-* utils：这是一个模块，其中包含文件检查器和评论总结器两个工具类。
-
-* file_reader.py：这是文件检查器，它的主要任务是检查用户上传的 Excel 文件是否合法。
-
-* summarizer.py：这是评论总结器，它的主要任务是将读取的评论数据进行总结。
-
-* tests：这是测试模块，其中包含文件检查器和评论总结器的测试代码。
-
-* test_file_reader.py：这是文件检查器的测试代码。
-
-* test_summarizer.py：这是评论总结器的测试代码。
-
-* requirements.txt：这是项目的依赖文件，其中列出了项目运行所需的所有 Python 包。
-
-* README.md：这是项目的说明文件，其中包含项目的简介、安装和使用说明等信息。
-
-- analyze.py: Contains functions related to the OpenAI API and generating prompts for the AI model.
-- app.py: The main application file that uses Streamlit to create a web interface.
-- function.py: Contains the function page of the Streamlit application.
-- configs.py: Contains configuration constants used across the application.
-- filereader.py: Contains a class and methods for reading and processing Excel files.
-
 # Insightful Reviews
 
-This project is a Streamlit application that uses the OpenAI API to analyze and summarize customer reviews from e-commerce platforms.
+This project is a web application that uses the OpenAI API to analyze and summarize customer reviews from e-commerce platforms.
 
 ## Project Description
 
