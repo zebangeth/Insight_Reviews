@@ -3,7 +3,7 @@ import time
 
 import streamlit as st
 
-from configs import (ANALYSIS_FOCUS, CONTENT_COL_CONFIG, USER_POSITION)
+from configs import ANALYSIS_FOCUS, CONTENT_COL_CONFIG, USER_POSITION
 from style.color_theme import html_header_color_1
 from utils.image_loader import img_to_bytes, img_to_html
 
@@ -25,7 +25,7 @@ def show_home_page():
             for i in range(len(INSIGHTFUL_REVIEWS)): 
                 st.markdown(f"<h1 style='color: black; font-size: 90px;'>{INSIGHTFUL_REVIEWS[:i]}_</h1>", 
                             unsafe_allow_html=True)
-                time.sleep(0.3)
+                time.sleep(0.15)
             st.markdown(f"<h1 style='color: black; font-size: 90px;'>{INSIGHTFUL_REVIEWS[:i]}</h1>", 
                         unsafe_allow_html=True)
 
@@ -68,14 +68,14 @@ def show_home_page():
             random_position = USER_POSITION[random.randint(1, len(USER_POSITION) - 1)]
             random_focus = ANALYSIS_FOCUS[random.randint(1, len(ANALYSIS_FOCUS) - 1)]
             st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
-                        无论您的岗位是 <i>{random_position}</i>， </br>
-                        关心的是 <i>{random_focus}</i>， </br>
+                        无论您的岗位是 <u>{random_position}</u>， </br>
+                        关心的是 <u>{random_focus}</u>， </br>
                         我们都为您提供具有针对性的分析总结</h3>
                         """, unsafe_allow_html=True)
-            time.sleep(1)
+            time.sleep(0.8)
         st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
-                    无论您身处 👩🏻‍🚀 任何岗位， </br>
-                    关心的是产品评价的 🌟 任何方面， </br>
+                    无论您身处 <u>👩🏻‍🚀 任何岗位</u>， </br>
+                    关心的是产品评价的 <u>🌟 任何方面</u>， </br>
                     我们都为您提供具有针对性的分析总结</h3>
                     """, unsafe_allow_html=True)
     
