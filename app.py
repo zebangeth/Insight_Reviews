@@ -4,6 +4,7 @@ import time
 import streamlit as st
 from streamlit_option_menu import option_menu
 
+from configs import CONTENT_COL_CONFIG
 from app_pages.home import show_home_page
 from app_pages.function import show_function_page
 from app_pages.pricing import show_pricing_page
@@ -38,13 +39,16 @@ top_menu = option_menu(None, [option["label"] for option in menu_options],
 
 # --- Page Footer ---
 def show_page_footers():
-    st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
-    st.markdown("此网站仅作为正式版应用的功能演示，如有需要请联系我们以获得更多信息")
-    st.markdown("""
-                This website serves only as a functional demonstration of the official version of the application.  
-                Please contact us for more information if you are interested.
-                """)
-    st.markdown("© 2023 洞见分析")
+    _, center, _ = st.columns(CONTENT_COL_CONFIG)
+
+    with center:
+        st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
+        st.markdown("此网站仅作为正式版应用的功能演示，如有需要请联系我们以获得更多信息")
+        st.markdown("""
+                    This website serves only as a functional demonstration of the official version of the application.  
+                    Please contact us for more information if you are interested.
+                    """)
+        st.markdown("© 2023 洞见分析")
 
 
 if top_menu == "主页": 

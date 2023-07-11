@@ -27,15 +27,15 @@ def show_info_page():
         st.markdown("#### 📨 如果您有任何想法或问题，欢迎在此处留言")
         st.markdown("> 我会在第一时间与您进行联系")
 
-        contact_form = """
-        <form action="https://formsubmit.co/{}" method="POST">
+        contact_form = f"""
+        <form action="https://formsubmit.co/{st.secrets["EMAIL_ADDRESS"]}" method="POST">
             <input type="hidden" name="_captcha" value="false">
             <input type="text" name="name" placeholder="您的称呼" required>
             <input type="email" name="email" placeholder="您的邮箱 example@xyz.com" required>
             <textarea name="message" placeholder="请在这里留下您的想法或问题"></textarea>
             <button type="submit">点击发送</button>
         </form>
-        """.format("zebang.li.2012@gmail.com") # TODO: 改成 st.secrets["email_address"]
+        """
 
         st.markdown(contact_form, unsafe_allow_html=True)
 

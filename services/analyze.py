@@ -1,28 +1,30 @@
 import os
 
 import openai
+import streamlit as st
 
 # from dotenv import load_dotenv, find_dotenv
 # _ = load_dotenv(find_dotenv()) # read local .env file
 
 # openai.api_key  = os.getenv('OPENAI_API_KEY')
 
-openai.api_key  = "sk-xxx" # st.secret()
+openai.api_key  = st.secrets["OpenAI_API_KEY"]
 
 def get_completion(prompt, model="gpt-3.5-turbo"):
     messages = [{"role": "user", "content": prompt}]
     response = openai.ChatCompletion.create(
         model=model, 
         messages=messages, 
-        temperature=0.5, 
+        temperature=0.5,
     )
     return response.choices[0].message["content"]
 
 def generate_prompt(prod_info, num_of_reviews, review_texts):
     prompt = f"""
-    你的任务是总结并分析这款{prod_info}最近的200条产品评价。
+    你的任务是总结并分析这款{prod_info}最近的{num_of_reviews}条产品评价。
     具体的{num_of_reviews}条产品评价已经按照时间由近到远整理在下面的评价列表中，
     评价列表中的每条内容包含评价序号，尖括号中的用户评价，和花括号中的评价时间。
+    请你从不同角度对客户评价进行分类总结和分析，如产品、包装、定价等。并给出完整的分析总结。
 
     评价列表：```{review_texts}```
     """
