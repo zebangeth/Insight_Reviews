@@ -64,7 +64,7 @@ def show_home_page():
                 unsafe_allow_html=True)
     rolling_header = st.empty()
     with rolling_header: 
-        for i in range(5): 
+        for i in range(8): 
             random_position = USER_POSITION[random.randint(1, len(USER_POSITION) - 1)]
             random_focus = ANALYSIS_FOCUS[random.randint(1, len(ANALYSIS_FOCUS) - 1)]
             st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
@@ -72,7 +72,7 @@ def show_home_page():
                         关心的是 <u>{random_focus}</u>， </br>
                         我们都为您提供具有针对性的分析总结</h3>
                         """, unsafe_allow_html=True)
-            time.sleep(0.8)
+            time.sleep(0.4)
         st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
                     无论您身处 <u>👩🏻‍🚀 任何岗位</u>， </br>
                     关心的是产品评价的 <u>🌟 任何方面</u>， </br>
