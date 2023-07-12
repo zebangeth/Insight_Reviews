@@ -112,7 +112,7 @@ def show_home_page():
 
 
     huofu_logo = img_to_bytes('assets/huofu_logo.png')
-    shhy_logo = img_to_bytes('assets/shhy_logo.png')
+    teatree_logo = img_to_bytes('assets/teatree_logo.png')
 
     customer_feedback_card_style = """
         <style>
@@ -162,15 +162,15 @@ def show_home_page():
                     <p>"对于我们管理的快消类店铺，如果想看完1天的客户评价就至少要3个小时以上，
                     我们根本不可能投入这么长时间，所以也往往错失从客户反馈中发现问题的机会。
                     而借助这个工具我们可以在10分钟内了解主销商品的客户评价内容"</p>
-                    <span class="testimonial-signature">—— 火蝠电商 KA Operation Director</span>
+                    <span class="testimonial-signature">火蝠电商 KA Operation Director</span>
                 </div>
             </div>
             <div class="card">
-                <img class="card-logo" src="data:image/png;base64,{shhy_logo}" style="width:40%">
+                <img class="card-logo" src="data:image/png;base64,{teatree_logo}" style="width:40%">
                 <div class="container">
                     <p>"洞见评价帮助产品研发部门同事方便地理解客户对于我们和同类产品的反馈，找到客户痛点和需求，优化产品方向 ... 
                     我们的生产部通过定制分析功能快速定位品质问题。此工具优点在于让非电商部门同事也能关注用户声音，参与进来"</p>
-                    <span class="testimonial-signature">—— 上和元 Sales Vice President</span>
+                    <span class="testimonial-signature">一棵茶树 Sales Vice President</span>
                 </div>
             </div>
         </div>
@@ -186,9 +186,3 @@ def show_home_page():
     # if st.button("🚀 立即体验 🚀", key="function_button"):
     #     top_menu = "体验"
     # --- CTA 2: Learn Our Pricing ---
-
-
-
-
-
-

@@ -60,7 +60,7 @@ def show_function_page():
                 if file_valid:
                     st.success("文件上传成功！")
                 else:
-                    st.error("文件出错。请确保您上传的是一个有效的包含评价")
+                    st.error("文件出错。请确保您上传的是一个包含评价内容的有效问价")
 
         # --- STEP3: Analysis Options ---
         with step3_block:
@@ -96,6 +96,7 @@ def show_function_page():
                 
                 with analyze_result: 
                     st.markdown("分析结果正在生成...请等待约15秒钟")
+
                     review_texts = filereader.df_to_text(extract=True, num_of_reviews=NUM_OF_REVIEWS)
-                    prompt = analyze.generate_prompt(prod_info, NUM_OF_REVIEWS, review_texts)
+                    prompt = analyze.generate_prompt(prod_info, NUM_OF_REVIEWS, review_texts, selected_position, selected_focus)
                     st.markdown(analyze.get_completion(prompt))
