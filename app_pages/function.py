@@ -95,9 +95,8 @@ def show_function_page():
                 analyze_result = st.empty()
                 
                 with analyze_result: 
-                    st.markdown("分析结果正在生成...请等待约15秒钟")
+                    st.markdown("分析结果正在生成...请等待约15-30秒钟...可以起身走走去接杯水，如果接完水回来还没还出现结果就是模型坏了，请联系我")
 
                     review_texts = filereader.df_to_text(extract=True, num_of_reviews=NUM_OF_REVIEWS)
                     prompt = analyze.generate_prompt(prod_info, NUM_OF_REVIEWS, review_texts, selected_position, selected_focus)
-                    st.markdown(prompt)
                     st.markdown(analyze.get_completion(prompt))
