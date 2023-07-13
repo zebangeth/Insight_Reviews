@@ -108,7 +108,7 @@ def show_pricing_page():
                             <h3>⛅️ 云端在线使用</h3>
                             <p>✔️ 无需部署，直接在线使用</p>
                             <p>✔️ 提供每月1000次的分析服务调用</p>
-                            <p>✔️ 无需支付大语言模型 API KEY 的费用</p>
+                            <p>✔️ 无需单独支付模型 API KEY 的费用</p>
                             <p>✔️ 云端自动升级，享受最新功能</p>
                             <p>✔️ 不记录您的使用数据，隐私安全</p>
                             <br><br><br><br><br>
@@ -128,7 +128,7 @@ def show_pricing_page():
                             <br><br><br><br><br>
                         </div>
                         <div class="bottom-section">
-                            <div class="price">￥1000 <span style='font-size: 16px;'>（一次性部署）</span></div>
+                            <div class="price">￥1299 <span style='font-size: 16px;'>（一次性部署）</span></div>
                             <a href="mailto:{st.secrets["EMAIL_ADDRESS"]}" class="btn-purchase">点击咨询</a>
                         </div>
                     </div>

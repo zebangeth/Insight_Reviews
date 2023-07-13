@@ -1,7 +1,7 @@
 import streamlit as st
 
 from services import analyze
-from configs import ANALYSIS_FOCUS, NUM_OF_REVIEWS, USER_POSITION, CONTENT_COL_CONFIG
+from configs import OPENAI_MODEL, CLAUDE_MODEL, REVIEW_NUM_CAP, OPENAI_CAP, ANALYSIS_FOCUS, USER_POSITION, CONTENT_COL_CONFIG
 from services.filereader import FileReader
 from style.color_theme import html_header_color_1
 
@@ -33,7 +33,7 @@ def show_function_page():
                 st.write("许多你熟悉的网页插件都可以将电商网站的产品评价导出，我们支持几乎所有主流插件，无论是小旺神、店透视，还是阿明工具，都不在话下")
                 st.image(image="assets/Compatible_Browswer_Extensions.png")
                 st.write("你可以选择使用你最喜欢的插件导出评价列表，请只管点击上传，无需担心适配问题")
-                st.write("在导出时请选择 .xlsx 格式（.csv 和 .xls 格式的适配正在开发中，敬请期待）")
+                st.write("在导出时请选择 .xlsx 格式")
 
         # --- STEP2: File Upload and Validation Check ---
         with step2_block:
@@ -44,8 +44,8 @@ def show_function_page():
             # 文件上传及合法性检验
             with step2_col1: 
                 uploaded_file = st.file_uploader(label="直接拖拽或点击即可上传本地文件", type="xlsx")
-                filereader = FileReader(uploaded_file)
-                file_valid = filereader.check_file()
+                file = FileReader(uploaded_file)
+                file_valid = file.check_file()
 
             with step2_col2: 
                 st.markdown("##### 请在右边上传评价列表👉")
@@ -58,9 +58,18 @@ def show_function_page():
                 st.warning("请先上传包含评价列表的表格文件")
             else:
                 if file_valid:
-                    st.success("文件上传成功！")
+                    review_texts, num_of_valid_reviews = file.df_to_text(num_of_reviews=REVIEW_NUM_CAP)
+                    if num_of_valid_reviews > REVIEW_NUM_CAP: 
+                        st.success(f"文件上传成功！您的文件共包含 {num_of_valid_reviews} 条有效评价内容，\
+                                     受测试版容量限制，会为您分析前 {REVIEW_NUM_CAP} 条有效评价")
+                    else: 
+                        st.success(f"文件上传成功！您的文件共包含{num_of_valid_reviews}条有效评价内容")
+
+                    with st.expander("展开将要分析的评价列表"): 
+                        st.markdown(" *评价内容已合并同一用户的首次评价和后续追评* ")
+                        st.markdown(review_texts)
                 else:
-                    st.error("文件出错。请确保您上传的是一个包含评价内容的有效问价")
+                    st.error("文件出错。请确保您上传的是一个包含评价内容的有效文件")
 
         # --- STEP3: Analysis Options ---
         with step3_block:
@@ -76,14 +85,23 @@ def show_function_page():
                 selected_focus = st.selectbox("请选择您的总结侧重点", ANALYSIS_FOCUS)
             
             # 高级分析选项
-            advanced_options = st.expander("其他分析选项（非必填）")
+            advanced_options = st.expander("高级分析选项（非必填）")
 
             with advanced_options: 
-                st.markdown("<h6>请选择需要分析的评价时间范围</h6>", unsafe_allow_html=True)
+                st.markdown("<h6>请输入您想具体</h6>", unsafe_allow_html=True)
+                prod_inso = st.text_input("请以提问形式输入", placeholder="如：电动牙刷、婴幼儿奶粉、女式连衣裙...")
+                
                 step3b_col1, step3b_col2 = st.columns((1, 1))
-                with step3b_col1:
-                    start_date = st.date_input("开始日期")
+                with step3b_col1: 
+                    st.markdown("<h6>请选择您要使用的模型</h6>", unsafe_allow_html=True)
                 with step3b_col2: 
+                    st.markdown("<h6>请选择需要分析的评价时间范围</h6>", unsafe_allow_html=True)
+                step3c_col1, step3c_col2, step3c_col3 = st.columns((2, 1, 1))
+                with step3c_col1: 
+                    selected_model = st.selectbox("模型选择（GPT 仅支持分析前50条评价）", ["自动推荐", OPENAI_MODEL, CLAUDE_MODEL])
+                with step3c_col2:
+                    start_date = st.date_input("开始日期")
+                with step3c_col3: 
                     end_date = st.date_input("结束日期")
             
         # --- Analysis Activation and Result ---
@@ -100,7 +118,28 @@ def show_function_page():
                                 请等待约15-30秒钟...\n
                                 可以起身走走去接杯水，如果接完水回来还没还出现结果就是模型坏了，请联系我
                                 """)
+                    
+                    
+                    if selected_model == OPENAI_MODEL: 
+                        num_of_reviews_to_analyze = min(OPENAI_CAP, num_of_valid_reviews)
+                    else: 
+                        num_of_reviews_to_analyze = min(REVIEW_NUM_CAP, num_of_valid_reviews)
 
-                    review_texts = filereader.df_to_text(extract=True, num_of_reviews=NUM_OF_REVIEWS)
-                    prompt = analyze.generate_prompt(prod_info, NUM_OF_REVIEWS, review_texts, selected_position, selected_focus)
-                    st.markdown(analyze.get_completion(prompt))
+                    prompt = analyze.generate_prompt(
+                        prod_info, 
+                        num_of_reviews_to_analyze, 
+                        review_texts, 
+                        selected_position, 
+                        selected_focus
+                        )
+                    
+                    if num_of_reviews_to_analyze <= OPENAI_CAP and selected_model != CLAUDE_MODEL: 
+                        st.markdown(analyze.gpt_completion(prompt))
+                    else: 
+                        st.markdown(analyze.claude_completion(prompt))
+                        
+                st.markdown(prompt)
+                if num_of_reviews_to_analyze <= OPENAI_CAP:
+                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by OpenAI {OPENAI_MODEL}</p>", unsafe_allow_html=True)
+                else: 
+                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by Anthropic {CLAUDE_MODEL}</p>", unsafe_allow_html=True)

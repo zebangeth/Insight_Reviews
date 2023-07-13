@@ -16,7 +16,6 @@ class FileReader:
         """
         check if file is valid and contains all required review columns
         """
-        # 尝试读取文件
         try:
             df = pd.read_excel(self.file)
         except Exception as e:
@@ -29,15 +28,14 @@ class FileReader:
 
         return True
 
-    def extract_data(self, file):
+    def extract_data(self):
         """
         从文件中提取需要的数据。
         """
-        df = pd.read_excel(file)
+        df = pd.read_excel(self.file)
 
-        # 删除无内容评价
-        df = df[df['首次评价'] != EMPTY_REVIEW]
-        df = df[df['追加评价'] != EMPTY_REVIEW]
+        # 删除无有效内容的评价
+        df = df[(df['首次评价'] != EMPTY_REVIEW) & (df['首次评价'].str.len() > 2) | (df['追加评价'].str.contains('\w'))]
 
         # 只保留有用的列
         df = df[USEFUL_COLUMNS]
@@ -45,20 +43,26 @@ class FileReader:
         return df
 
     def df_to_text(self, 
-                   extract=True, 
                    columns=['首次评价', '首评时间'], 
                    num_of_reviews=100, 
                    ): # TODO: check if columns need to change here
 
-        if extract: 
-            df = self.extract_data(self.file)
-        else: 
-            df = pd.read_excel(self.file)
-        prod_reviews = df['首次评价'].tolist()
+        df = self.extract_data()
+
+        num_of_valid_reviews = len(df)
+
+        # Fill NaN values with empty strings
+        df['首次评价'] = df['首次评价'].fillna('')
+        df['追加评价'] = df['追加评价'].fillna('')
+
+        # Create a new column '全部评价' which is the combination of '首次评价' and '追加评价'
+        df['全部评价'] = df['首次评价'] + "..." + df['追加评价']
+
+        prod_reviews = df['全部评价'].tolist()
         review_date = df['首评时间'].tolist()
 
         review_texts = ""
-        for i in range(min(num_of_reviews, len(prod_reviews))):
+        for i in range(min(num_of_reviews, num_of_valid_reviews)):
             review_texts += (
                 str(i + 1) + ". "
                 + "{" + review_date[i] + "} "
@@ -66,4 +70,4 @@ class FileReader:
                 + "\n"
             )
         
-        return review_texts
+        return review_texts, num_of_valid_reviews

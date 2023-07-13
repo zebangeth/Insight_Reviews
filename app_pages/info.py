@@ -11,7 +11,7 @@ from configs import CONTENT_COL_CONFIG
 
 def show_info_page():
 
-    _, center, _ = st.columns(CONTENT_COL_CONFIG)
+    _, center, _ = st.columns([1, 4, 1])
 
     with center: 
         # st.subheader("Welcome to Insightful Reviews ⛳️")
