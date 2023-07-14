@@ -88,21 +88,21 @@ def show_function_page():
             advanced_options = st.expander("高级分析选项（非必填）")
 
             with advanced_options: 
-                st.markdown("<h6>请输入您想具体</h6>", unsafe_allow_html=True)
-                prod_inso = st.text_input("请以提问形式输入", placeholder="如：电动牙刷、婴幼儿奶粉、女式连衣裙...")
+                st.markdown("<h6>请输入您想从评价列表中了解的具体问题</h6>", unsafe_allow_html=True)
+                input_question = st.text_input("请以提问形式输入", placeholder="如：客户在评价中有没有提到主播或者直播间？")
                 
                 step3b_col1, step3b_col2 = st.columns((1, 1))
                 with step3b_col1: 
                     st.markdown("<h6>请选择您要使用的模型</h6>", unsafe_allow_html=True)
-                with step3b_col2: 
-                    st.markdown("<h6>请选择需要分析的评价时间范围</h6>", unsafe_allow_html=True)
+                # with step3b_col2: 
+                #     st.markdown("<h6>请选择需要分析的评价时间范围</h6>", unsafe_allow_html=True)
                 step3c_col1, step3c_col2, step3c_col3 = st.columns((2, 1, 1))
                 with step3c_col1: 
                     selected_model = st.selectbox("模型选择（GPT 仅支持分析前50条评价）", ["自动推荐", OPENAI_MODEL, CLAUDE_MODEL])
-                with step3c_col2:
-                    start_date = st.date_input("开始日期")
-                with step3c_col3: 
-                    end_date = st.date_input("结束日期")
+                # with step3c_col2:
+                #     start_date = st.date_input("开始日期")
+                # with step3c_col3: 
+                #     end_date = st.date_input("结束日期")
             
         # --- Analysis Activation and Result ---
         if uploaded_file is not None and file_valid:
@@ -130,7 +130,8 @@ def show_function_page():
                         num_of_reviews_to_analyze, 
                         review_texts, 
                         selected_position, 
-                        selected_focus
+                        selected_focus,
+                        input_question,
                         )
                     
                     if num_of_reviews_to_analyze <= OPENAI_CAP and selected_model != CLAUDE_MODEL: 
@@ -138,7 +139,7 @@ def show_function_page():
                     else: 
                         st.markdown(analyze.claude_completion(prompt))
                         
-                st.markdown(prompt)
+                # st.markdown("".join(["system:", prompt[0], "user", prompt[1], "complete:", prompt[2]]))
                 if num_of_reviews_to_analyze <= OPENAI_CAP:
                     st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by OpenAI {OPENAI_MODEL}</p>", unsafe_allow_html=True)
                 else: 
