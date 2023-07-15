@@ -1,7 +1,9 @@
 # Insightful Reviews
 
 Insightful Reviews is a web application that utilizes Large Language Models via APIs from OpenAI and Anthropic to analyze and summarize customer reviews from e-commerce platforms. 
+
 This tool can generate comprehensive, as well as tailored, insights based on the user's role and specific areas of interest. It also allows the user to pose specific questions regarding customer feedback. 
+
 Insightful Reviews provides an intuitive user interface, enabling users to upload raw review data, select their roles, choose the focus of the analysis, and receive detailed, role-specific reports generated from the analysis.
 
 ##  About the Application
