@@ -1,24 +1,24 @@
 # Insightful Reviews
 
-This project is a web application that uses the OpenAI API to analyze and summarize customer reviews from e-commerce platforms.
+Insightful Reviews is a web application that utilizes Large Language Models via APIs from OpenAI and Anthropic to analyze and summarize customer reviews from e-commerce platforms. 
 
-## Project Description
+This tool can generate comprehensive, as well as tailored, insights based on the user's role and specific areas of interest. It also allows the user to pose specific questions regarding customer feedback. 
 
-The application allows users to upload Excel files exported from major Chinese E-commerce websites containing customer reviews, specify some analysis parameters, and then generates an analysis of the reviews using the OpenAI API. The application is designed to be easy to use, with a simple web interface created using Streamlit.
+Insightful Reviews provides an intuitive user interface, enabling users to upload raw review data, select their roles, choose the focus of the analysis, and receive detailed, role-specific reports generated from the analysis.
 
-Please be aware that this web application serves only as a functional demonstration of the official version of the e-commerce review analysis application. Please contact me for more information if you are interested.
-## Installation
+##  About the Application
 
-To install and run this project, follow these steps:
+Insightful Reviews consists of four main pages, each designed with the end user in mind:
 
-1. Clone the repository:
-git clone https://github.com/yourusername/projectname.git
+1. **Home**: This page serves as an introduction to the application. It showcases the value and functionality of the tool to potential users, offering a detailed overview of what the tool can achieve.
 
-2. Install the required Python packages:
-pip install -r requirements.txt
+2. **Functionality**: The core of the application resides on this page. Here, users can upload review data, select their preferred analysis parameters, and generate comprehensive, tailored insights into customer feedback.
 
-3. Run the Streamlit application:
-streamlit run app.py
+3. **Pricing**: To cater to different needs and budgets, this page outlines the various pricing tiers available for the tool. Users can review and select the plan that best suits their requirements.
+
+4. **Contact**: If users have any queries or feedback, they can reach out directly to the developer through the contact page. Communication is key to improving our services, and we greatly value your input.
+
+**Disclaimer**: Please note, this web application serves only as a functional demonstration of the official/for-profit version of the e-commerce review analysis application. For further details or if you are interested in using the application for commercial purposes, do not hesitate to reach out.
 
 ## Project Structure
 
@@ -42,9 +42,29 @@ Sensitive information like API keys and emails are stored in environment variabl
 - analyze.py: This file contains functions for generating prompts for the AI model and getting the completion from the OpenAI API.
 - function.py: This file contains the code for the function page of the Streamlit application, where users upload their file and specify analysis parameters.
 
+## Setup and Usage
+
+**Disclaimer**: Please note, this web application serves only as a functional demonstration of the official/for-profit version of the e-commerce review analysis application. For further details or if you are interested in using the application for commercial purposes, do not hesitate to reach out.
+
+The application is deployed on streamlit community cloud and can be accessed directly through https://insightful.streamlit.app/
+
+To install and run this project on your local machine, follow the following steps:
+
+1. Clone the repository to your local machine.
+
+2. Install the necessary dependencies via pip:
+`pip install -r requirements.txt`
+
+3. Set up your OpenAI and Anthropic API keys. You can do this by either storing them in a local .env file, or set up a .secret file and manage your keys using streamlit.secret.
+
+4. Run the application:
+`streamlit run app.py`
+
+5. Navigate to the URL displayed in the console (usually http://localhost:8501) to interact with the application.
+
 ## Contributing
 
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
+Feel free to contribute to this project by submitting a pull request. If you encounter any issues or have any suggestions, please open an issue.
 
 ## License
 
