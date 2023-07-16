@@ -45,8 +45,8 @@ def show_page_footers():
         st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
         st.markdown("此网站仅作为正式版应用的功能演示，如有需要请联系我们以获得更多信息")
         st.markdown("""
-                    This website serves only as a functional demonstration of the official version of the application.  
-                    Please contact us for more information if you are interested.
+                    Please note, this web application serves only as a functional demonstration of the official/for-profit version of the e-commerce review analysis application. 
+                    For further details or if you are interested in using the application for commercial purposes, do not hesitate to reach out.
                     """)
         st.markdown("© 2023 洞见分析")
 
