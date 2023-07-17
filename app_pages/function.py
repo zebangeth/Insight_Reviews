@@ -115,10 +115,8 @@ def show_function_page():
                 with analyze_result: 
                     st.markdown("""
                                 分析结果正在生成...\n
-                                请等待约15-30秒钟...\n
-                                可以起身走走去接杯水，如果接完水回来还没还出现结果就是模型坏了，请联系我
+                                请等待约15秒钟...\n
                                 """)
-                    
                     
                     if selected_model == OPENAI_MODEL: 
                         num_of_reviews_to_analyze = min(OPENAI_CAP, num_of_valid_reviews)

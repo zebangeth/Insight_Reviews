@@ -39,13 +39,12 @@ class FileReader:
 
         # 只保留有用的列
         df = df[USEFUL_COLUMNS]
-        # print(df)
         return df
 
     def df_to_text(self, 
                    columns=['首次评价', '首评时间'], 
                    num_of_reviews=100, 
-                   ): # TODO: check if columns need to change here
+                   ): # TODO: check if columns need to change here for other 3rd-party browser extension exported files
 
         df = self.extract_data()
 

@@ -6,11 +6,7 @@ import streamlit as st
 
 from configs import OPENAI_MODEL, CLAUDE_MODEL, REVIEW_NUM_CAP, OPENAI_CAP
 
-# from dotenv import load_dotenv, find_dotenv
-# _ = load_dotenv(find_dotenv()) # read local .env file
-
-# openai.api_key  = os.getenv('OPENAI_API_KEY')
-
+# --- OpenAI Completion ---
 openai.api_key  = st.secrets["OpenAI_API_KEY"]
 
 def gpt_completion(prompt, model=OPENAI_MODEL):
@@ -26,7 +22,7 @@ def gpt_completion(prompt, model=OPENAI_MODEL):
     )
     return response.choices[0].message["content"]
 
-
+# --- Anthropic Completion ---
 anthropic = Anthropic(
     api_key=st.secrets["Anthropic_API_KEY"],
 )
@@ -36,14 +32,14 @@ def claude_completion(prompt, model=CLAUDE_MODEL):
 
     completion = anthropic.completions.create(
         model=model,
-        max_tokens_to_sample=80000,
+        max_tokens_to_sample=90000,
         prompt=messages,
         temperature=0,
     )
     
     # stream = anthropic.completions.create(
     #     model=model,
-    #     max_tokens_to_sample=80000,
+    #     max_tokens_to_sample=90000,
     #     prompt=messages,
     #     stream=True,
     # )
@@ -52,7 +48,7 @@ def claude_completion(prompt, model=CLAUDE_MODEL):
     #     print(completion.completion, end="")
     return completion.completion
 
-
+# --- Prompt Generation ---
 def generate_prompt(prod_info, num_of_reviews, review_texts, user_position, analysis_focus, input_question):
     common_prompt_part1 = f"""
     你是一名资深的电商评价分析师。
@@ -86,8 +82,17 @@ def generate_prompt(prod_info, num_of_reviews, review_texts, user_position, anal
         "👩🏻‍🔧 生产/质量控制": "生产和质量控制部门经理的角度分析，重点关注客户对产品质量的反馈，如产品质量问题、产品瑕疵等。",
         "✈️ 物流/供应链": "物流和供应链部门经理的角度分析，关注客户对产品包装和物流的反馈，如包装物流问题、物流速度和物流体验等。不要对任何与物流或包装无关的评价内容进行分析总结。",
     }
-    if not input_question: 
-        # 根据用户的角色来生成不同的 prompt，如果用户同时选择了岗位角色和分析角度，那么优先使用分析角度
+
+    if input_question: 
+        # generate prompt according to the specific question user has asked
+        system_prompt = f"""
+        你是一名资深的电商评价分析师。
+        你的任务是根据用户提供的电商客户评价列表分析这款 {prod_info} 产品在淘宝平台上的最近{num_of_reviews}条产品评价。\n
+        并通过客户的评价内容，回答以下问题：{input_question}
+        """
+    else: 
+        # generate prompt according to the user position and area of interests (focus analysis)
+        # if both user position and focus analysis are selected by the user, generate prompt based on focus analysis
         if analysis_focus != "暂不选择":
             system_prompt = common_prompt_part1 \
                 + """1. 本次分析不应该面面俱到，而要侧重点明确：a. 首先筛选出客户评价中与""" + focus_to_prompt[analysis_focus] \
@@ -96,12 +101,6 @@ def generate_prompt(prod_info, num_of_reviews, review_texts, user_position, anal
             system_prompt = common_prompt_part1 + "1. 本次分析不应该面面俱到，请你仅站在" + position_to_prompt[user_position] + common_prompt_part2
         else:
             system_prompt = common_prompt_part1 + "1. 请你从不同角度全面地对客户评价进行分类总结和分析，如产品的主要优点和缺点、产品的功能、外观、使用体验、定价、包装、客服服务、产品的质量以及任何其他客户反映的问题。" + common_prompt_part2
-    else: 
-        system_prompt = f"""
-        你是一名资深的电商评价分析师。
-        你的任务是根据用户提供的电商客户评价列表分析这款 {prod_info} 产品在淘宝平台上的最近{num_of_reviews}条产品评价。\n
-        并通过客户的评价内容，回答以下问题：{input_question}
-        """
 
     user_prompt = f"\n评价列表：\n```{review_texts}```"
     complete_prompt = system_prompt + user_prompt
