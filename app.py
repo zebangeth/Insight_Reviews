@@ -36,7 +36,6 @@ top_menu = option_menu(None, [option["label"] for option in menu_options],
                         # }
                     )
 
-
 # --- Page Footer ---
 def show_page_footers():
     _, center, _ = st.columns(CONTENT_COL_CONFIG)
@@ -53,18 +52,16 @@ def show_page_footers():
 
 if top_menu == "主页": 
     show_home_page()
-    show_page_footers()
 
 if top_menu == "体验": 
     show_function_page()
-    show_page_footers()
 
 if top_menu == "定价": 
     show_pricing_page()
-    show_page_footers()
 
 if top_menu == "信息": 
     show_info_page()
-    show_page_footers()
+
+show_page_footers()
 
 
