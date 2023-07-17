@@ -38,9 +38,9 @@ Sensitive information like API keys and emails are stored in environment variabl
 ### Key Files
 
 - app.py: This is the main entry point of the application. It sets up the Streamlit interface and manages the navigation between different pages.
-- filereader.py: This file contains the FileReader class, which is used to read and process the Excel files containing customer reviews.
-- analyze.py: This file contains functions for generating prompts for the AI model and getting the completion from the OpenAI API.
-- function.py: This file contains the code for the function page of the Streamlit application, where users upload their file and specify analysis parameters.
+- filereader.py: This file contains the FileReader class, which is used to read, validate, preprocess and extract the Excel files containing customer reviews.
+- analyze.py: This file contains functions for generating prompts for the AI model and getting the completion from OpenAI / Anthropic APIs.
+- function.py: This file contains the code for the function page of the application, where users upload the Excel file and specify analysis parameters.
 
 ## Setup and Usage
 
