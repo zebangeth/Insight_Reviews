@@ -5,7 +5,7 @@ OPENAI_MODEL = "gpt-3.5-turbo-16k-0613"
 CLAUDE_MODEL = "claude-instant-1"
 
 # 单次读取评价条数上限
-REVIEW_NUM_CAP = 200
+REVIEW_NUM_CAP = 300
 OPENAI_CAP = 50
 
 USER_POSITION = ["暂不选择", "👨🏻‍💻 电商运营", "🤵🏻‍♂️ 电商客服", "👩🏻‍🔬 产品研发", "👩🏻‍🔧 生产/质量控制", "✈️ 物流/供应链"]
