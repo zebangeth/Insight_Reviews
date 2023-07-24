@@ -1,9 +1,10 @@
 import streamlit as st
 
 from services import analyze
-from configs import OPENAI_MODEL, CLAUDE_MODEL, REVIEW_NUM_CAP, OPENAI_CAP, ANALYSIS_FOCUS, USER_POSITION, CONTENT_COL_CONFIG
+from configs import OPENAI_GPT3, CLAUDE_DEFAULT, CLAUDE_INSTANT, CLAUDE_2, REVIEW_NUM_CAP, OPENAI_CAP, ANALYSIS_FOCUS, USER_POSITION, CONTENT_COL_CONFIG
 from services.filereader import FileReader
 from style.color_theme import html_header_color_1
+from style.model_comparison import model_comparison_table
 
 # --------------------------------------------------------------------------------
 # ---- FUNCTION PAGE -------------------------------------------------------------
@@ -50,9 +51,9 @@ def show_function_page():
             with step2_col2: 
                 st.markdown("##### 请在右边上传评价列表👉")
                 st.markdown("""<h6 style='color: grey; line-height: 2;'>
-                ✅ 使用 .xlsx 格式</br>
-                ✅ 上传原始文件，请勿修改内容</h6>
-                """, unsafe_allow_html=True)
+                    ✅ 使用 .xlsx 格式</br>
+                    ✅ 上传原始文件，请勿修改内容</h6>
+                    """, unsafe_allow_html=True)
 
             if uploaded_file is None:
                 st.warning("请先上传包含评价列表的表格文件")
@@ -80,9 +81,10 @@ def show_function_page():
             with step3a_col1:
                 prod_info = st.text_input("请输入产品类别", placeholder="如：电动牙刷、婴幼儿奶粉、女式连衣裙...")
             with step3a_col2: 
-                selected_position = st.selectbox("请选择您的岗位类型", USER_POSITION)
-            with step3a_col3: 
                 selected_focus = st.selectbox("请选择您的总结侧重点", ANALYSIS_FOCUS)
+            with step3a_col3: 
+                selected_position = st.selectbox("请选择您的岗位类型", USER_POSITION)
+
             
             # 高级分析选项
             advanced_options = st.expander("高级分析选项（非必填）")
@@ -94,15 +96,11 @@ def show_function_page():
                 step3b_col1, step3b_col2 = st.columns((1, 1))
                 with step3b_col1: 
                     st.markdown("<h6>请选择您要使用的模型</h6>", unsafe_allow_html=True)
-                # with step3b_col2: 
-                #     st.markdown("<h6>请选择需要分析的评价时间范围</h6>", unsafe_allow_html=True)
-                step3c_col1, step3c_col2, step3c_col3 = st.columns((2, 1, 1))
+                step3c_col1, step3c_col2 = st.columns((1, 1))
                 with step3c_col1: 
-                    selected_model = st.selectbox("模型选择（GPT 仅支持分析前50条评价）", ["自动推荐", OPENAI_MODEL, CLAUDE_MODEL])
-                # with step3c_col2:
-                #     start_date = st.date_input("开始日期")
-                # with step3c_col3: 
-                #     end_date = st.date_input("结束日期")
+                    selected_model = st.selectbox("模型选择（请参考下方模型对比表格进行模型选择）", ["自动推荐", OPENAI_GPT3, CLAUDE_INSTANT, CLAUDE_2])
+
+                st.markdown(model_comparison_table, unsafe_allow_html=True)
             
         # --- Analysis Activation and Result ---
         if uploaded_file is not None and file_valid:
@@ -112,14 +110,13 @@ def show_function_page():
 
                 analyze_result = st.empty()
                 
-                with analyze_result: 
-                    st.markdown("""
-                                分析结果正在生成...\n
-                                请等待约15秒钟...\n
-                                """)
-                    
-                    if selected_model == OPENAI_MODEL: 
+                with analyze_result:
+                    st.markdown("""分析结果正在生成，请等待5-10秒...  
+                                请不要重复点击【开始分析】按钮""")
+
+                    if selected_model == OPENAI_GPT3: 
                         num_of_reviews_to_analyze = min(OPENAI_CAP, num_of_valid_reviews)
+                        review_texts, _ = file.df_to_text(num_of_reviews=num_of_reviews_to_analyze)
                     else: 
                         num_of_reviews_to_analyze = min(REVIEW_NUM_CAP, num_of_valid_reviews)
 
@@ -132,13 +129,15 @@ def show_function_page():
                         input_question,
                         )
                     
-                    if num_of_reviews_to_analyze <= OPENAI_CAP and selected_model != CLAUDE_MODEL: 
-                        st.markdown(analyze.gpt_completion(prompt))
+                    if num_of_reviews_to_analyze <= OPENAI_CAP: 
+                        analyze.gpt_stream_completion(prompt)
                     else: 
-                        st.markdown(analyze.claude_completion(prompt))
+                        if selected_model == "自动推荐": 
+                            selected_model = CLAUDE_DEFAULT
+                        analyze.claude_stream_completion(prompt, model=selected_model)
                         
                 # st.markdown("".join(["system:", prompt[0], "user", prompt[1], "complete:", prompt[2]]))
                 if num_of_reviews_to_analyze <= OPENAI_CAP:
-                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by OpenAI {OPENAI_MODEL}</p>", unsafe_allow_html=True)
+                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by OpenAI {OPENAI_GPT3}</p>", unsafe_allow_html=True)
                 else: 
-                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by Anthropic {CLAUDE_MODEL}</p>", unsafe_allow_html=True)
+                    st.markdown(f"</br></br></br></br><p style='text-align: center; color: #BFBFBF; font-size: 16px;'> Powered by Anthropic {selected_model}</p>", unsafe_allow_html=True)

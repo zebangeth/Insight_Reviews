@@ -4,49 +4,57 @@ import openai
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 import streamlit as st
 
-from configs import OPENAI_MODEL, CLAUDE_MODEL, REVIEW_NUM_CAP, OPENAI_CAP
+from configs import OPENAI_GPT3, CLAUDE_INSTANT, CLAUDE_2, REVIEW_NUM_CAP, OPENAI_CAP
 
-# --- OpenAI Completion ---
+# --- OpenAI Stream Completion ---
 openai.api_key  = st.secrets["OpenAI_API_KEY"]
 
-def gpt_completion(prompt, model=OPENAI_MODEL):
+def gpt_stream_completion(prompt, model=OPENAI_GPT3):
     system_prompt, user_prompt = prompt[0], prompt[1]
     messages = [
         {"role": "system", "content": system_prompt}, 
         {"role": "user", "content": user_prompt}, 
         ]
-    response = openai.ChatCompletion.create(
+    
+    stream = openai.ChatCompletion.create(
         model=model, 
         messages=messages, 
         temperature=0,
-    )
-    return response.choices[0].message["content"]
+        stream=True)
+    
+    completing_content = ""
+    for chunk in stream:
+        chunk_content = chunk["choices"][0].get("delta", {}).get("content")
+        if chunk_content: 
+            completing_content += chunk_content
+            st.markdown(completing_content)
+    
+    return
 
 # --- Anthropic Completion ---
 anthropic = Anthropic(
     api_key=st.secrets["Anthropic_API_KEY"],
 )
 
-def claude_completion(prompt, model=CLAUDE_MODEL): 
+def claude_stream_completion(prompt, model=CLAUDE_INSTANT): 
     messages = f"{HUMAN_PROMPT} {prompt[2]} {AI_PROMPT}"
 
-    completion = anthropic.completions.create(
+    stream = anthropic.completions.create(
         model=model,
         max_tokens_to_sample=90000,
         prompt=messages,
         temperature=0,
+        stream=True,
     )
-    
-    # stream = anthropic.completions.create(
-    #     model=model,
-    #     max_tokens_to_sample=90000,
-    #     prompt=messages,
-    #     stream=True,
-    # )
 
-    # for completion in stream:
-    #     print(completion.completion, end="")
-    return completion.completion
+    completing_content = ""
+    for chunk in stream:
+        chunk_content = chunk.completion
+        if chunk_content: 
+            completing_content += chunk_content
+            st.markdown(completing_content)
+
+    return
 
 # --- Prompt Generation ---
 def generate_prompt(prod_info, num_of_reviews, review_texts, user_position, analysis_focus, input_question):
