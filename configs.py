@@ -1,12 +1,14 @@
 # --- System Config ---
 
 # --- Model Selection ---
-OPENAI_MODEL = "gpt-3.5-turbo-16k-0613"
-CLAUDE_MODEL = "claude-instant-1"
+OPENAI_GPT3 = "gpt-3.5-turbo-16k-0613"
+CLAUDE_DEFAULT = "claude-2"
+CLAUDE_INSTANT = "claude-instant-1"
+CLAUDE_2 = "claude-2"
 
 # 单次读取评价条数上限
 REVIEW_NUM_CAP = 300
-OPENAI_CAP = 50
+OPENAI_CAP = 75
 
 USER_POSITION = ["暂不选择", "👨🏻‍💻 电商运营", "🤵🏻‍♂️ 电商客服", "👩🏻‍🔬 产品研发", "👩🏻‍🔧 生产/质量控制", "✈️ 物流/供应链"]
 ANALYSIS_FOCUS = ["暂不选择", "⚙️ 产品功能", "💎 产品质量", "🎨 产品外观", "🖐️ 使用体验", "💰 价格合理性", "💳 客户服务与下单体验", "📦 包装与物流"]
