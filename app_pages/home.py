@@ -91,7 +91,13 @@ def show_home_page():
     
     _, center, _ = st.columns(CONTENT_COL_CONFIG)
     with center: 
-        st.image(image="assets/Supported_EC_Sites.png")
+        supported_ec_sites = img_to_bytes('assets/Supported_EC_Sites.png')
+        st.markdown(f"""
+            <div style="text-align: center;">
+                <img src="data:image/png;base64,{supported_ec_sites}" style="width: 80%; max-width: 1500px;">
+            </div>
+            """, unsafe_allow_html=True)
+
         st.markdown("---")
     
 
