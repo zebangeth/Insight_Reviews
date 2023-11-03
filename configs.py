@@ -10,8 +10,17 @@ CLAUDE_2 = "claude-2"
 REVIEW_NUM_CAP = 300
 OPENAI_CAP = 75
 
-USER_POSITION = ["暂不选择", "👨🏻‍💻 电商运营", "🤵🏻‍♂️ 电商客服", "👩🏻‍🔬 产品研发", "👩🏻‍🔧 生产/质量控制", "✈️ 物流/供应链"]
-ANALYSIS_FOCUS = ["暂不选择", "⚙️ 产品功能", "💎 产品质量", "🎨 产品外观", "🖐️ 使用体验", "💰 价格合理性", "💳 客户服务与下单体验", "📦 包装与物流"]
+# USER_POSITION = ["暂不选择", "👨🏻‍💻 电商运营", "🤵🏻‍♂️ 电商客服", "👩🏻‍🔬 产品研发", "👩🏻‍🔧 生产/质量控制", "✈️ 物流/供应链"]
+# ANALYSIS_FOCUS = ["暂不选择", "⚙️ 产品功能", "💎 产品质量", "🎨 产品外观", "🖐️ 使用体验", "💰 价格合理性", "💳 客户服务与下单体验", "📦 包装与物流"]
+
+USER_POSITION = {
+    "zh": ["暂不选择", "👨🏻‍💻 电商运营", "🤵🏻‍♂️ 电商客服", "👩🏻‍🔬 产品研发", "👩🏻‍🔧 生产/质量控制", "✈️ 物流/供应链"],
+    "en": ["None Selected", "👨🏻‍💻 E-commerce Operations", "🤵🏻‍♂️ Customer Service", "👩🏻‍🔬 Product R&D", "👩🏻‍🔧 Production/QC", "✈️ Logistics/Supply Chain"]
+}
+ANALYSIS_FOCUS = {
+    "zh": ["暂不选择", "⚙️ 产品功能", "💎 产品质量", "🎨 产品外观", "🖐️ 使用体验", "💰 价格合理性", "💳 客户服务与下单体验", "📦 包装与物流"],
+    "en": ["None Selected", "⚙️ Product Features", "💎 Product Quality", "🎨 Design & Appearance", "🖐️ User Experience", "💰 Pricing", "💳 Customer Service & Ordering", "📦 Packaging & Logistics"]
+}
 
 # ---  Prompt Library ---
 FOCUS_TO_PROMPT = {
