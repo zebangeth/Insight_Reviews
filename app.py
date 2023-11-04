@@ -18,7 +18,7 @@ if 'menu_option' not in st.session_state:
 
 lang_choice = st.sidebar.selectbox('Choose your language', options=['English (beta)', '简体中文'])
 
-language = "en" if lang_choice == 'English (beta)' else "zh"
+language = "zh" if lang_choice == '简体中文' else "en"
 
 # https://github.com/victoryhb/streamlit-option-menu
 # https://icons.getbootstrap.com/
