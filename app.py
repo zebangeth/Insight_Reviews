@@ -16,6 +16,8 @@ st.set_page_config(page_title="Insightful Reviews", page_icon="⛳️", layout="
 if 'menu_option' not in st.session_state:
     st.session_state['menu_option'] = 'Home'
 
+language = "en" if st.sidebar.selectbox('Choose your language', options=['English', '简体中文']) == 'English' else "zh"
+
 # https://github.com/victoryhb/streamlit-option-menu
 # https://icons.getbootstrap.com/
 menu_options = [
@@ -51,7 +53,7 @@ def show_page_footers():
 
 
 if top_menu == "主页": 
-    show_home_page()
+    show_home_page(language)
 
 if top_menu == "体验": 
     show_function_page()
