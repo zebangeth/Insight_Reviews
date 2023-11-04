@@ -1,5 +1,6 @@
 import random
 import time
+import json
 
 import streamlit as st
 
@@ -11,76 +12,10 @@ from utils.image_loader import img_to_bytes, img_to_html
 # ---- HOME PAGE -----------------------------------------------------------------
 # --------------------------------------------------------------------------------
 
-# multi-lingual dictionary
-texts = {
-    "welcome": {"en": "Hi, Welcome to", "zh": "Hi, 欢迎来到"},
-    "insightful_reviews": {"en": "Insight Reviews ⛳️", "zh": "洞见评价 ⛳️"},
-    "tailored_for_every_role": {"en": "Provide **Insightful Reviews** Tailored for Every Role, in 30 Seconds",
-                                "zh": "30秒为你提供**评价洞见**"},
-    "choose_language": {"en": "Choose your language", "zh": "选择您的语言"},
-    "time_saving_subtitle": {
-        "en": "⚡️ Lightning-Fast Insights: Comprehensive Analysis in 30 Seconds ⚡️",
-        "zh": "⚡️ 30秒生成评价分析，快如闪电 ⚡️"
-    },
-    "time_saving_description": {
-        "en": """Leveraging cutting-edge 🧠 large language models </br>
-                 Process up to 1000 product reviews in 30 seconds </br>
-                 Save 30-60 minutes of operation time daily""",
-        "zh": """借助先进的 🧠 GPT 大语言模型 </br>
-                 30秒即可处理高达1000条产品评价 </br>
-                 每日节省30-60分钟运营巡店时间"""
-    },
-    "tailored_insights_subtitle": {
-        "en": "👩‍🚀 Provide Customized Analysis Results Tailored to Your Needs 👩‍🚀",
-        "zh": "👩🏻‍🚀 根据你的需求，提供个性化分析结果 👩🏻‍🚀"
-    },
-    "position_and_focus": {
-        "en": """No matter your position is <u>{}</u>, </br>
-                 or your concern is <u>{}</u>, </br>
-                 we provide you with targeted analysis summaries""",
-        "zh": """无论您的岗位是 <u>{}</u>， </br>
-                 关心的是 <u>{}</u>， </br>
-                 我们都为您提供具有针对性的分析总结"""
-    },  
-    "ecommerce_compatibility_subtitle": {
-        "en": "🛒 Compatible with All Major E-commerce Solutions 🛒",
-        "zh": "🛒 适用于全部主流电商网站 🛒"
-    },
-    "customer_feedback_subtitle": {
-        "en": "Customer Feedback",
-        "zh": "客户反馈"
-    },
-    "hotfor_feedback": {
-        "en": """In the multitude of stores we oversee, navigating through the daily deluge of thousands of customer reviews is a daunting task; 
-                 The impractical time commitment it requires often causing us to miss out on the chance to detect and address issues highlighted by our customers. 
-                 Thanks to this innovative tool, we can now capture the essence of customer sentiment within a mere 10 minutes.""", 
-        "zh": """对于我们管理的店铺，每天产生的客户评价有数千条，如果想看完至少要3个小时以上，
-                 我们根本不可能投入这么长时间，所以也往往错失从客户反馈中发现问题的机会。
-                 而借助这个工具我们可以在10分钟内了解主销商品的客户评价内容。"""
-    },
-    "hotfor_company_name": {
-        "en": "HOTFOR E-commerce",
-        "zh": "火蝠电商"
-    },
-    "teatree_feedback": {
-        "en": """Insight Review has been instrumental for our product team, streamlining the process of distilling customer feedback, 
-                 and providing clear directives for product enhancement. 
-                 Likewise, our production team has been able to detect QC issues using the tool's tailored analysis features. 
-                 The tool's real merit is in its ability to engage non-e-commerce departments with the voice of the customer, 
-                 ensuring that user feedback is heard and heeded.""", 
-        "zh": """洞见评价帮产品研发部门高效地理解客户对于我们产品的反馈，找到客户痛点和需求，明确了产品优化方向 ... 
-                 我们的生产部还通过定制分析功能快速掌握了品控问题。这个工具的价值在于让非电商部门也开始关注用户声音，听取用户反馈。"""
-    },
-    "teatree_company_name": {
-        "en": "Tea Tree",
-        "zh": "一棵茶树"
-    },
-}
-
-
-# language choosing
-language = st.sidebar.selectbox('Choose your language', options=['en', 'zh'])
-
+# multi-lingual JSON dictionary
+with open('app_pages/home_lang.json', 'r', encoding='utf-8') as f:
+    texts = json.load(f)
+ 
 def show_home_page(language):
 
     INSIGHTFUL_REVIEWS = texts['insightful_reviews'][language]
@@ -128,13 +63,16 @@ def show_home_page(language):
             random_position = USER_POSITION[language][random.randint(1, len(USER_POSITION[language]) - 1)]
             random_focus = ANALYSIS_FOCUS[language][random.randint(1, len(ANALYSIS_FOCUS[language]) - 1)]
             position_focus_message = texts['position_and_focus'][language].format(random_position, random_focus)
-            tailored_insights_final_message = "aa"
+            tailored_insights_final_message = {
+                "en": texts['position_and_focus'][language].format("👩🏻‍🚀any position", "🌟any aspect"), 
+                "zh": texts['position_and_focus'][language].format("👩🏻‍🚀任何岗位", "🌟任何方面"), 
+            }
             st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
                         {position_focus_message}
                         </h3>""", unsafe_allow_html=True)
             time.sleep(0.4)
         st.markdown(f"""<h3 style='text-align: center; line-height: 2;'>
-                    {tailored_insights_final_message}
+                    {tailored_insights_final_message[language]}
                     </h3>""", unsafe_allow_html=True)
 
     _, center, _ = st.columns(CONTENT_COL_CONFIG)

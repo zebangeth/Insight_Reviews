@@ -1,0 +1,138 @@
+{
+    "center_subtitle1": {
+      "en": "🚀 Simple 3 Steps, Experience Now 🚀",
+      "zh": "🚀 简单 3 步，即刻体验 🚀"
+    },
+    "step_one": {
+      "en": "Step 1: Export Review List from E-commerce Platform",
+      "zh": "第 1 步：从电商平台导出评价列表"
+    },
+    "step_one_subtitle": {
+      "en": "Prepare the exported .xlsx review list file before analysis",
+      "zh": "请在分析前准备好导出的 .xlsx 评价列表文件"
+    },
+    "step_one_instruction": {
+      "en": "How to Export Reviews from E-commerce Platforms",
+      "zh": "如何将电商平台的评价导出为 .xlsx 文件"
+    },
+    "step_one_write1": {
+      "en": "We support nearly all popular browser extensions, including Xiaowangshen, Dian Tou Shi, and A Ming Tool.",
+      "zh": "许多你熟悉的网页插件都可以将电商网站的产品评价导出，我们支持几乎所有主流插件，无论是小旺神、店透视，还是阿明工具，都不在话下"
+    },
+    "step_one_write2": {
+      "en": "Choose your favorite extension to export the review list. We are compatible with them all.",
+      "zh": "你可以选择使用你最喜欢的插件导出评价列表，请只管点击上传，无需担心适配问题"
+    },
+    "step_one_write3": {
+      "en": "Select the .xlsx format when exporting.",
+      "zh": "在导出时请选择 .xlsx 格式"
+    },
+    "step_two_markdown": {
+      "en": "Step 2: Upload the Review List",
+      "zh": "第 2 步：上传导出的评价列表"
+    },
+    "step_two_uploaded": {
+      "en": "",
+      "zh": "直接拖拽或点击即可上传本地文件"
+    },
+    "step_two_col2_markdown": {
+      "en": "##### Please upload the review list on the right 👉",
+      "zh": "##### 请在右边上传评价列表👉"
+    },
+    "step_two_col2_markdown2": {
+      "en": "✅ Use the .xlsx format</br>✅ Upload the file unmodified.",
+      "zh": "✅ 使用 .xlsx 格式</br>✅ 上传原始文件，请勿修改内容"
+    },
+    "step_two_warning": {
+      "en": "Please upload a table file that contains review content first.",
+      "zh": "请先上传包含评价列表的表格文件"
+    },
+    "step_two_success1": {
+      "en": "File uploaded successfully! Your file contains {} valid reviews.</br>Due to the capacity limit of the test version, the first {} valid reviews will be analyzed.",
+      "zh": "文件上传成功！您的文件共包含 {} 条有效评价内容，</br>受测试版容量限制，会为您分析前 {} 条有效评价"
+    },
+    "step_two_success2": {
+      "en": "File uploaded successfully! Your file contains {} valid reviews.",
+      "zh": "文件上传成功！您的文件共包含{}条有效评价内容"
+    },
+    "step_two_expander": {
+      "en": "Expand the review list to be analyzed",
+      "zh": "展开将要分析的评价列表"
+    },
+    "step_two_with_markdown": {
+      "en": "*Review content is combined for the first review and subsequent follow-up comments from the same user*",
+      "zh": " *评价内容已合并同一用户的首次评价和后续追评*"
+    },
+    "step_two_error": {
+      "en": "File is incorrect. Please make sure you upload a valid file containing review content.",
+      "zh": "文件出错。请确保您上传的是一个包含评价内容的有效文件"
+    },
+    "step_three_markdown": {
+      "en": "Step 3: Customize and Start Your Analysis 🚀",
+      "zh": "第 3 步：选择分析维度，开始分析 🚀"
+    },
+    "step_three_markdown2": {
+      "en": "Enter product information and your focus to obtain more customized analysis results",
+      "zh": "输入产品信息及您期待的分析侧重点，得到更有针对性的分析结果"
+    },
+    "step_three_prod_info": {
+      "en": "Enter Product Category",
+      "zh": "请输入产品类别"
+    },
+    "step_three_prod_info-placeholder": {
+      "en": "E.g., electric toothbrush, infant formula, women's dresses...",
+      "zh": "如：电动牙刷、婴幼儿奶粉、女式连衣裙..."
+    },
+    "step_three_selected_focus": {
+      "en": "Select Your Focus",
+      "zh": "请选择您的总结侧重点"
+    },
+    "step_three_selected_position": {
+      "en": "Select Your Position",
+      "zh": "请选择您的岗位类型"
+    },
+    "step_three_advanced_options": {
+      "en": "Advanced Analysis Options (optional)",
+      "zh": "高级分析选项（非必填）"
+    },
+    "step_three_advanced_options_markdown": {
+      "en": "Enter a specific question you want to know from the review list",
+      "zh": "请输入您想从评价列表中了解的具体问题"
+    },
+    "step_three_input_question": {
+      "en": "Please enter in the form of a question",
+      "zh": "请以提问形式输入"
+    },
+    "step_three_input_question_placeholder": {
+      "en": "E.g., Do customers like feature A of this product?",
+      "zh": "如：客户在评价中有没有提到主播或者直播间？"
+    },
+    "step_three_step3b_col1": {
+      "en": "Select the model you want to use",
+      "zh": "请选择您要使用的模型"
+    },
+    "step_three_selected_model": {
+      "en": "Model Selection (please refer to the model comparison table below for model selection)",
+      "zh": "模型选择（请参考下方模型对比表格进行模型选择）"
+    },
+    "step_three_selected_model2": {
+      "en": "Auto Recommendation",
+      "zh": "自动推荐"
+    },
+    "step_three_button": {
+      "en": "Start Analysis",
+      "zh": "开始分析"
+    },
+    "step_three_header": {
+      "en": "Analysis Results",
+      "zh": "分析结果"
+    },
+    "step_three_analyze_result": {
+      "en": "Analysis results are being generated, please wait 5-10 seconds...</br>Please do not click the 【Start Analysis】 button repeatedly.",
+      "zh": "分析结果正在生成，请等待5-10秒...</br>请不要重复点击【开始分析】按钮"
+    },
+    "step_three_selected_model3": {
+      "en": "Auto Recommendation",
+      "zh": "自动推荐"
+    }
+}

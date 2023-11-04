@@ -16,19 +16,29 @@ st.set_page_config(page_title="Insightful Reviews", page_icon="⛳️", layout="
 if 'menu_option' not in st.session_state:
     st.session_state['menu_option'] = 'Home'
 
-language = "en" if st.sidebar.selectbox('Choose your language', options=['English', '简体中文']) == 'English' else "zh"
+lang_choice = st.sidebar.selectbox('Choose your language', options=['English', '简体中文'])
+
+language = "en" if lang_choice == 'English' else "zh"
 
 # https://github.com/victoryhb/streamlit-option-menu
 # https://icons.getbootstrap.com/
-menu_options = [
-    {"label": "主页", "icon": "house"},
-    {"label": "体验", "icon": "rocket"},
-    {"label": "定价", "icon": "credit-card"},
-    {"label": "信息", "icon": "info-circle"}
-]
+menu_options = {
+    "en": [
+        {"label": "Home", "icon": "house"},
+        {"label": "Try", "icon": "rocket"},
+        {"label": "Price", "icon": "credit-card"},
+        {"label": "Contact", "icon": "info-circle"}
+    ], 
+    "zh": [
+        {"label": "主页", "icon": "house"},
+        {"label": "体验", "icon": "rocket"},
+        {"label": "定价", "icon": "credit-card"},
+        {"label": "信息", "icon": "info-circle"}
+    ]
+}
 
-top_menu = option_menu(None, [option["label"] for option in menu_options], 
-                        icons=[option["icon"] for option in menu_options], 
+top_menu = option_menu(None, [option["label"] for option in menu_options[language]], 
+                        icons=[option["icon"] for option in menu_options[language]], 
                         menu_icon="cast", default_index=0, orientation="horizontal", 
                         # styles={
                         #     "container": {"padding": "0!important", "background-color": "#fafafa"},
@@ -52,18 +62,16 @@ def show_page_footers():
         st.markdown("© 2023 洞见分析")
 
 
-if top_menu == "主页": 
+if top_menu in ("主页", "Home"): 
     show_home_page(language)
 
-if top_menu == "体验": 
-    show_function_page()
+if top_menu in ("体验", "Try"): 
+    show_function_page(language)
 
-if top_menu == "定价": 
+if top_menu in ("定价", "Price"): 
     show_pricing_page()
 
-if top_menu == "信息": 
+if top_menu in ("信息", "Contact"): 
     show_info_page()
 
 show_page_footers()
-
-
