@@ -1,6 +1,6 @@
 {
     "center_subtitle1": {
-      "en": "🚀 Simple 3 Steps, Experience Now 🚀",
+      "en": "🚀 Try It Now, in 3 Simple Steps 🚀",
       "zh": "🚀 简单 3 步，即刻体验 🚀"
     },
     "step_one": {
@@ -40,11 +40,11 @@
       "zh": "##### 请在右边上传评价列表👉"
     },
     "step_two_col2_markdown2": {
-      "en": "✅ Use the .xlsx format</br>✅ Upload the file unmodified.",
+      "en": "✅ Use the .xlsx format</br>✅ Upload the file unmodified",
       "zh": "✅ 使用 .xlsx 格式</br>✅ 上传原始文件，请勿修改内容"
     },
     "step_two_warning": {
-      "en": "Please upload a table file that contains review content first.",
+      "en": "Please upload a .xlsx file that contains review list first.",
       "zh": "请先上传包含评价列表的表格文件"
     },
     "step_two_success1": {

@@ -16,7 +16,7 @@ st.set_page_config(page_title="Insightful Reviews", page_icon="⛳️", layout="
 if 'menu_option' not in st.session_state:
     st.session_state['menu_option'] = 'Home'
 
-lang_choice = st.sidebar.selectbox('Choose your language', options=['English (beta)', '简体中文'])
+lang_choice = st.sidebar.selectbox('选择您的语言 Choose your language', options=['English (beta)', '简体中文'])
 
 language = "zh" if lang_choice == '简体中文' else "en"
 
