@@ -59,7 +59,7 @@ def show_page_footers():
                     Please note, this web application serves only as a functional demonstration of the official/for-profit version of the e-commerce review analysis application. 
                     For further details or if you are interested in using the application for commercial purposes, do not hesitate to reach out.
                     """)
-        st.markdown("© 2023 洞见分析")
+        st.markdown("© 2024 洞见分析")
 
 
 if top_menu in ("主页", "Home"): 
