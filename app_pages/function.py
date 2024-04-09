@@ -2,7 +2,7 @@ import json
 
 import streamlit as st
 
-from services import analyze
+from services import analyze, analyze_en
 from configs import OPENAI_GPT3, CLAUDE_DEFAULT, CLAUDE_INSTANT, CLAUDE_2, REVIEW_NUM_CAP, OPENAI_CAP, ANALYSIS_FOCUS, USER_POSITION, CONTENT_COL_CONFIG
 from services.filereader import FileReader
 from style.color_theme import html_header_color_1
@@ -17,6 +17,9 @@ with open('app_pages/function_lang.json', 'r', encoding='utf-8') as f:
     texts = json.load(f)
 
 def show_function_page(language):
+    if language == "en":
+        analyze = analyze_en
+        
     _, center, _ = st.columns(CONTENT_COL_CONFIG)
 
     with center:
