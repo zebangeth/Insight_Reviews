@@ -101,11 +101,11 @@ def generate_prompt(prod_info, num_of_reviews, review_texts, user_position, anal
     else: 
         # generate prompt according to the user position and area of interest (focus analysis)
         # if both user position and focus analysis are selected by the user, generate prompt based on focus analysis
-        if analysis_focus != "Not selected":
+        if analysis_focus != "None Selected":
             system_prompt = common_prompt_part1 \
                 + """1. The analysis should not be exhaustive but should focus on: a. Firstly, filter out customer comments related to """ + focus_to_prompt[analysis_focus] \
                 + "b. Then analyze and summarize the filtered content in detail.\n" + common_prompt_part2
-        elif user_position != "Not selected":
+        elif user_position != "None Selected":
             system_prompt = common_prompt_part1 + "1. The analysis should not be exhaustive, please analyze solely from the perspective of a " + position_to_prompt[user_position] + common_prompt_part2
         else:
             system_prompt = common_prompt_part1 + "1. Please categorize and analyze the customer comments from different perspectives comprehensively, such as the main advantages and disadvantages of the product, its functions, design, user experience, pricing, packaging, customer service, quality of the product, and any other issues raised by customers." + common_prompt_part2

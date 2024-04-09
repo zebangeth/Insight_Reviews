@@ -36,7 +36,7 @@ anthropic = Anthropic(
     api_key=st.secrets["Anthropic_API_KEY"],
 )
 
-def claude_stream_completion(prompt, model=CLAUDE_INSTANT): 
+def claude_stream_completion(prompt, model="claude-3-haiku-20240307"): 
     messages = f"{HUMAN_PROMPT} {prompt[2]} {AI_PROMPT}"
 
     stream = anthropic.completions.create(

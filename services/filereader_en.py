@@ -2,9 +2,7 @@ import pandas as pd
 
 # 需要使用的列
 USEFUL_COLUMNS = [
-    'SKU', '首次评价', '首评时间', '首评图片',  
-    '追加评价', '追评图片', 
-    ]
+    'SKU', '首次评价', '首评时间']
 # 无内容评价
 EMPTY_REVIEW = "此用户没有填写评价。"
 
@@ -35,8 +33,7 @@ class FileReader:
         df = pd.read_excel(self.file)
 
         # 删除无有效内容的评价
-        df = df[(df['首次评价'] != EMPTY_REVIEW) & (df['首次评价'].str.len() > 2) | (df['追加评价'].str.contains('\w'))]
-
+        df = df[(df['首次评价'] != EMPTY_REVIEW)]
         # 只保留有用的列
         df = df[USEFUL_COLUMNS]
         return df
@@ -52,10 +49,10 @@ class FileReader:
 
         # Fill NaN values with empty strings
         df['首次评价'] = df['首次评价'].fillna('')
-        df['追加评价'] = df['追加评价'].fillna('')
+        # df['追加评价'] = df['追加评价'].fillna('')
 
         # Create a new column '全部评价' which is the combination of '首次评价' and '追加评价'
-        df['全部评价'] = df['首次评价'] + "..." + df['追加评价']
+        df['全部评价'] = df['首次评价'] + "..."
 
         prod_reviews = df['全部评价'].tolist()
         review_date = df['首评时间'].tolist()
