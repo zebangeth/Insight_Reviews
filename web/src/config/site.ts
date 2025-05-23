@@ -13,8 +13,8 @@ export const SUPPORTED_LANGUAGES: ReadonlyArray<{
   value: SupportedLanguage;
   label: string;
 }> = [
-  { value: "en", label: "English (beta)" },
-  { value: "zh", label: "简体中文" },
+  { value: "en", label: "EN" },
+  { value: "zh", label: "中文" },
 ];
 
 export const NAV_LINKS: Record<

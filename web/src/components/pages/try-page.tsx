@@ -217,22 +217,27 @@ export function TryPage() {
   }
 
   return (
-    <div className="space-y-12">
-      <header className="space-y-4">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+    <div className="space-y-10">
+      <header className="border-b border-border pb-10">
+        <p className="text-sm font-medium text-muted-foreground">
+          {language === "zh" ? "产品体验" : "Product trial"}
+        </p>
+        <h1 className="mt-4 max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl">
           {copy.pageTitle}
         </h1>
-        <p className="max-w-3xl text-muted-foreground">{copy.subtitle}</p>
+        <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground">
+          {copy.subtitle}
+        </p>
       </header>
 
       <div className="grid gap-8">
-        <Card className="border-border/70 bg-background/70">
+        <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
             <CardTitle>{copy.upload.title}</CardTitle>
             <CardDescription>{copy.upload.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex flex-col gap-3 rounded-2xl border border-dashed border-border/80 bg-card/60 p-6">
+            <div className="flex flex-col gap-3 rounded-md border border-dashed border-border bg-muted/25 p-6">
               <label className="flex flex-col gap-3 text-sm font-medium">
                 <span>
                   {language === "zh"
@@ -254,7 +259,7 @@ export function TryPage() {
               </p>
             </div>
 
-            <div className="rounded-xl border border-border/60 bg-muted/40 p-5 text-sm leading-relaxed text-muted-foreground">
+            <div className="rounded-md border border-border bg-muted/25 p-5 text-sm leading-relaxed text-muted-foreground">
               <ol className="list-decimal space-y-2 pl-5">
                 {copy.upload.instructions.map((instruction) => (
                   <li key={instruction}>{instruction}</li>
@@ -263,7 +268,7 @@ export function TryPage() {
               <p className="mt-3 text-xs">
                 {copy.upload.helper}
               </p>
-              <div className="relative mt-4 overflow-hidden rounded-2xl border border-border/60 bg-card/50 p-3">
+              <div className="relative mt-4 overflow-hidden rounded-md border border-border bg-background p-3">
                 <Image
                   src="/images/Compatible_Browswer_Extensions.png"
                   alt={language === "zh" ? "兼容的浏览器插件" : "Compatible browser extensions"}
@@ -285,7 +290,7 @@ export function TryPage() {
                   </span>
                 )}
               </div>
-              <div className="rounded-xl border border-border/60 bg-background/70 p-4">
+              <div className="rounded-md border border-border bg-background p-4">
                 {preparedReview ? (
                   <ul className="space-y-3 text-sm">
                     {preparedReview.preview.map((entry) => (
@@ -309,7 +314,7 @@ export function TryPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-background/70">
+        <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
             <CardTitle>{copy.configure.title}</CardTitle>
             <CardDescription>{copy.configure.description}</CardDescription>
@@ -401,7 +406,7 @@ export function TryPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-background/70">
+        <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
             <CardTitle>{copy.analyze.title}</CardTitle>
             <CardDescription>{analysisHint}</CardDescription>
@@ -422,7 +427,7 @@ export function TryPage() {
             <div className="space-y-4">
               <h3 className="text-base font-semibold">{copy.analyze.resultLabel}</h3>
               {analysisResult ? (
-                <pre className="max-h-[520px] overflow-auto rounded-xl border border-border/80 bg-card/70 p-4 text-sm leading-relaxed">
+                <pre className="max-h-[520px] overflow-auto rounded-md border border-border bg-muted/25 p-4 text-sm leading-relaxed">
                   {analysisResult}
                 </pre>
               ) : (

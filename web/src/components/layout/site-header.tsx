@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { ArrowRight, BarChart3 } from "lucide-react";
 
-import { NAV_LINKS, SITE_NAME, SITE_TAGLINE } from "@/config/site";
+import { NAV_LINKS, SITE_NAME } from "@/config/site";
 import { LanguageToggle } from "@/components/language-toggle";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -16,21 +18,21 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/providers/language-provider";
 
 const SHELL_CLASS =
-  "mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-6";
+  "mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-5 sm:px-6";
 
 export function SiteHeader() {
   const { language } = useLanguage();
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
       <div className={SHELL_CLASS}>
-        <Link href="/" className="flex flex-col">
-          <span className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-            {SITE_NAME}
+        <Link href="/" className="flex items-center gap-3">
+          <span className="flex size-8 items-center justify-center rounded-md bg-foreground text-background">
+            <BarChart3 className="size-4" aria-hidden="true" />
           </span>
-          <span className="text-sm text-muted-foreground">
-            {SITE_TAGLINE[language]}
+          <span className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground">
+            {SITE_NAME}
           </span>
         </Link>
 
@@ -46,8 +48,9 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
-                  active && "bg-primary/10 text-primary",
+                  "relative px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+                  active &&
+                    "text-foreground after:absolute after:inset-x-4 after:-bottom-[17px] after:h-px after:bg-foreground",
                 )}
               >
                 {item.label}
@@ -61,6 +64,12 @@ export function SiteHeader() {
             <MobileNav />
           </div>
           <LanguageToggle />
+          <Button asChild className="hidden h-9 rounded-md px-4 text-xs font-semibold sm:inline-flex">
+            <Link href="/try">
+              {language === "zh" ? "免费体验" : "Try for free"}
+              <ArrowRight className="size-3.5" aria-hidden="true" />
+            </Link>
+          </Button>
         </div>
       </div>
     </header>
@@ -78,7 +87,7 @@ function MobileNav() {
       value={getActiveHref(pathname, links)}
       onValueChange={(value) => router.push(value)}
     >
-      <SelectTrigger className="w-[140px]">
+      <SelectTrigger className="h-9 w-[116px] rounded-md border-border bg-background text-xs font-medium">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

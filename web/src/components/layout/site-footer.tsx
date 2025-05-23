@@ -7,10 +7,10 @@ export function SiteFooter() {
   const { language } = useLanguage();
 
   return (
-    <footer className="mt-16 border-t border-border/60 bg-muted/30">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-10 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+    <footer className="mt-20 border-t border-border bg-background">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-10 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p className="max-w-2xl leading-relaxed">{FOOTER_COPY[language]}</p>
-        <p className="text-xs uppercase tracking-wide">{COPYRIGHT_NOTICE}</p>
+        <p className="text-xs uppercase tracking-[0.18em]">{COPYRIGHT_NOTICE}</p>
       </div>
     </footer>
   );

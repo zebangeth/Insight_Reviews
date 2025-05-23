@@ -1,14 +1,9 @@
 "use client";
 
+import { ArrowRight, Mail } from "lucide-react";
+
 import { CONTACT_COPY } from "@/content/contact";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/providers/language-provider";
@@ -22,80 +17,88 @@ export function ContactPage() {
   const copy = CONTACT_COPY[language];
 
   return (
-    <div className="space-y-16">
-      <div className="mx-auto flex max-w-3xl flex-col gap-10">
-        <header className="space-y-5 text-center">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            {copy.pageTitle}
-          </h1>
-          <p className="text-base leading-relaxed text-muted-foreground">
-            {copy.subtitle}
-          </p>
-        </header>
+    <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <aside className="border-b border-border pb-8 lg:border-r lg:border-b-0 lg:pr-10">
+        <p className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+          <Mail className="size-4 text-foreground" aria-hidden="true" />
+          {copy.addressLabel}
+        </p>
+        <h1 className="mt-5 max-w-xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-5xl">
+          {copy.pageTitle}
+        </h1>
+        <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+          {copy.subtitle}
+        </p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="mt-8 inline-flex items-center gap-2 text-sm font-semibold"
+        >
+          {CONTACT_EMAIL}
+          <ArrowRight className="size-4" aria-hidden="true" />
+        </a>
+      </aside>
 
-        <Card className="rounded-3xl border border-border/60 bg-gradient-to-br from-background via-background/90 to-background/60 shadow-xl backdrop-blur">
-          <CardHeader className="space-y-4 pb-0 text-center">
-            <CardTitle className="text-2xl font-semibold leading-tight">
-              {copy.form.title}
-            </CardTitle>
-            <CardDescription className="text-base leading-relaxed text-muted-foreground">
-              {copy.form.description}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-8 pt-6">
-            <form
-            action={`https://formsubmit.co/${CONTACT_EMAIL}`}
-            method="POST"
-            className="flex flex-col gap-7"
-          >
-            <input type="hidden" name="_captcha" value="false" />
-            <label className="space-y-2 text-sm font-medium text-foreground/90">
-              <span>{copy.form.nameLabel}</span>
-              <Input
-                name="name"
-                required
-                className="h-12 rounded-2xl border-input bg-background/80 text-base"
-              />
-            </label>
-            <label className="space-y-2 text-sm font-medium text-foreground/90">
-              <span>{copy.form.emailLabel}</span>
-              <Input
-                type="email"
-                name="email"
-                required
-                className="h-12 rounded-2xl border-input bg-background/80 text-base"
-              />
-            </label>
-            <label className="space-y-2 text-sm font-medium text-foreground/90">
-              <span>{copy.form.messageLabel}</span>
-              <Textarea
-                name="message"
-                rows={6}
-                required
-                className="min-h-[180px] rounded-2xl border-input bg-background/80 text-base"
-              />
-            </label>
-            <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:justify-end">
-              <Button
-                type="submit"
-                size="lg"
-                className="h-12 rounded-2xl px-8 text-base font-semibold shadow-sm"
-              >
-                {copy.form.submitLabel}
-              </Button>
-            </div>
-            <p className="text-center text-sm text-muted-foreground">
-              {language === "zh"
-                ? "我们会在 24 小时内回复。若有紧急事项请直接发送邮件："
-                : "We usually reply within one business day. For urgent requests, email us directly:"}
-              <span className="ml-1 font-medium text-primary">
-                {CONTACT_EMAIL}
-              </span>
-            </p>
-          </form>
-        </CardContent>
-        </Card>
-      </div>
+      <section className="border border-border bg-background p-6 sm:p-8">
+        <div className="border-b border-border pb-6">
+          <h2 className="text-2xl font-semibold leading-tight">
+            {copy.form.title}
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            {copy.form.description}
+          </p>
+        </div>
+        <form
+          action={`https://formsubmit.co/${CONTACT_EMAIL}`}
+          method="POST"
+          className="mt-7 flex flex-col gap-6"
+        >
+          <input type="hidden" name="_captcha" value="false" />
+          <label className="space-y-2 text-sm font-medium text-foreground/90">
+            <span>{copy.form.nameLabel}</span>
+            <Input
+              name="name"
+              required
+              className="h-11 rounded-md border-input bg-background text-base"
+            />
+          </label>
+          <label className="space-y-2 text-sm font-medium text-foreground/90">
+            <span>{copy.form.emailLabel}</span>
+            <Input
+              type="email"
+              name="email"
+              required
+              className="h-11 rounded-md border-input bg-background text-base"
+            />
+          </label>
+          <label className="space-y-2 text-sm font-medium text-foreground/90">
+            <span>{copy.form.messageLabel}</span>
+            <Textarea
+              name="message"
+              rows={6}
+              required
+              className="min-h-[180px] rounded-md border-input bg-background text-base"
+            />
+          </label>
+          <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:justify-end">
+            <Button
+              type="submit"
+              size="lg"
+              className="h-11 rounded-md px-7 text-sm font-semibold"
+            >
+              {copy.form.submitLabel}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Button>
+          </div>
+          <p className="border-t border-border pt-6 text-sm text-muted-foreground">
+            {language === "zh"
+              ? "我们会在 24 小时内回复。若有紧急事项请直接发送邮件："
+              : "We usually reply within one business day. For urgent requests, email us directly:"}
+            <span className="ml-1 font-medium text-foreground">
+              {CONTACT_EMAIL}
+            </span>
+          </p>
+        </form>
+      </section>
     </div>
   );
 }

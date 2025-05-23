@@ -18,7 +18,7 @@ export function LanguageToggle() {
       value={language}
       onValueChange={(value) => setLanguage(value as SupportedLanguage)}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="h-9 w-[92px] rounded-md border-border bg-background px-3 text-xs font-medium">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
