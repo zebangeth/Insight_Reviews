@@ -217,7 +217,9 @@ export function HomePage() {
                                 : "flex items-center justify-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium text-muted-foreground transition hover:border-foreground hover:text-foreground"
                             }
                           >
-                            <Icon className="size-4" aria-hidden="true" />
+                            <span className="inline-flex size-5 shrink-0 items-center justify-center">
+                              <Icon className="size-4" strokeWidth={2} aria-hidden="true" />
+                            </span>
                             {role.label[language]}
                           </button>
                         );
@@ -290,9 +292,15 @@ export function HomePage() {
                 ].map(([value, label, delta], index) => (
                   <div key={label} className="border-b border-r border-border p-4 last:border-r-0 sm:border-b-0">
                     <p className="text-xs text-muted-foreground">{label}</p>
-                    <div className="mt-2 flex items-end gap-2">
-                      <span className="text-2xl font-semibold">{value}</span>
-                      <span className={index === 2 ? "text-xs font-medium text-red-600" : "text-xs font-medium text-emerald-700"}>
+                    <div className="mt-2 flex items-baseline gap-1.5">
+                      <span className="text-2xl font-semibold leading-none tabular-nums">{value}</span>
+                      <span
+                        className={
+                          index === 2
+                            ? "text-xs font-medium leading-none text-red-600"
+                            : "text-xs font-medium leading-none text-emerald-700"
+                        }
+                      >
                         {delta}
                       </span>
                     </div>
@@ -474,11 +482,20 @@ function ComparisonPanel({
           </div>
           <div className="border border-border p-4">
             <p className="text-xs font-semibold">Impact on CSAT</p>
-            <div className="mt-3 space-y-2">
-              {["Delivery delay", "Packaging damage", "Refund friction"].map((label, index) => (
-                <div key={label} className="grid grid-cols-[1fr_80px] items-center gap-3 text-xs">
-                  <span>{label}</span>
-                  <span className="h-2 rounded-full bg-foreground" style={{ width: `${80 - index * 16}px` }} />
+            <div className="mt-3 space-y-3">
+              {[
+                { label: "Delivery delay", value: 88 },
+                { label: "Packaging damage", value: 64 },
+                { label: "Refund friction", value: 42 },
+              ].map((item) => (
+                <div key={item.label} className="space-y-1.5 text-xs">
+                  <span>{item.label}</span>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-foreground"
+                      style={{ width: `${item.value}%` }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
