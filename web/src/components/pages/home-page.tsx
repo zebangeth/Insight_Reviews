@@ -162,7 +162,7 @@ export function HomePage() {
 
                 <div className="rounded-md border border-border">
                   {[
-                    [language === "zh" ? "文件状态" : "File ready", language === "zh" ? "校验通过" : "All validations passed"],
+                    [language === "zh" ? "文件状态" : "File ready", language === "zh" ? "校验通过" : "Validations passed"],
                     [language === "zh" ? "总评价数" : "Total reviews", "45,231"],
                     [language === "zh" ? "日期范围" : "Date range", "Apr 1 - May 14, 2024"],
                     [language === "zh" ? "字段识别" : "Columns detected", "23"],
@@ -293,13 +293,13 @@ export function HomePage() {
                     className="border-b border-r border-border p-4 nth-[2n]:border-r-0 sm:border-b-0 sm:nth-[2n]:border-r sm:last:border-r-0"
                   >
                     <p className="text-xs text-muted-foreground">{label}</p>
-                    <div className="mt-2 flex h-8 items-center gap-1.5">
+                    <div className="mt-2 inline-flex items-end gap-1 whitespace-nowrap">
                       <span className="text-2xl font-semibold leading-none tabular-nums">{value}</span>
                       <span
                         className={
                           index === 2
-                            ? "text-[11px] font-semibold leading-none text-red-600"
-                            : "text-[11px] font-semibold leading-none text-emerald-700"
+                            ? "mb-1 text-xs font-semibold leading-none text-red-600"
+                            : "mb-1 text-xs font-semibold leading-none text-emerald-700"
                         }
                       >
                         {delta}
