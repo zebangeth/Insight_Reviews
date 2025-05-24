@@ -213,14 +213,12 @@ export function HomePage() {
                             onClick={() => setActiveRole(roleKey)}
                             className={
                               active
-                                ? "flex items-center justify-center gap-2 rounded-md border border-foreground bg-background px-3 py-2 text-xs font-semibold"
-                                : "flex items-center justify-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium text-muted-foreground transition hover:border-foreground hover:text-foreground"
+                                ? "flex flex-col items-center gap-1.5 rounded-md border border-foreground bg-background px-2 py-2.5 text-xs font-semibold"
+                                : "flex flex-col items-center gap-1.5 rounded-md border border-border bg-background px-2 py-2.5 text-xs font-medium text-muted-foreground transition hover:border-foreground hover:text-foreground"
                             }
                           >
-                            <span className="inline-flex size-5 shrink-0 items-center justify-center">
-                              <Icon className="size-4" strokeWidth={2} aria-hidden="true" />
-                            </span>
-                            {role.label[language]}
+                            <Icon className="size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
+                            <span className="text-center leading-tight">{role.label[language]}</span>
                           </button>
                         );
                       })}
@@ -290,20 +288,23 @@ export function HomePage() {
                   ["12%", language === "zh" ? "负向情绪" : "Negative sentiment", "-3%"],
                   ["91%", language === "zh" ? "响应率" : "Response rate", "+4%"],
                 ].map(([value, label, delta], index) => (
-                  <div key={label} className="border-b border-r border-border p-4 last:border-r-0 sm:border-b-0">
+                  <div
+                    key={label}
+                    className="border-b border-r border-border p-4 nth-[2n]:border-r-0 sm:border-b-0 sm:nth-[2n]:border-r sm:last:border-r-0"
+                  >
                     <p className="text-xs text-muted-foreground">{label}</p>
-                    <div className="mt-2 flex items-baseline gap-1.5">
-                      <span className="text-2xl font-semibold leading-none tabular-nums">{value}</span>
+                    <p className="mt-2 whitespace-nowrap leading-none">
+                      <span className="text-2xl font-semibold tabular-nums">{value}</span>
                       <span
                         className={
                           index === 2
-                            ? "text-xs font-medium leading-none text-red-600"
-                            : "text-xs font-medium leading-none text-emerald-700"
+                            ? "ml-1.5 text-[11px] font-semibold text-red-600"
+                            : "ml-1.5 text-[11px] font-semibold text-emerald-700"
                         }
                       >
                         {delta}
                       </span>
-                    </div>
+                    </p>
                   </div>
                 ))}
               </div>
@@ -473,26 +474,26 @@ function ComparisonPanel({
           ))}
         </div>
       ) : (
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div className="border border-border p-4">
+        <div className="mt-5 grid min-w-0 gap-4 sm:grid-cols-2">
+          <div className="min-w-0 overflow-hidden border border-border p-4">
             <p className="text-xs font-semibold">Key insight</p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Delivery delay is the top driver of dissatisfaction, impacting CSAT by -14 points.
             </p>
           </div>
-          <div className="border border-border p-4">
+          <div className="min-w-0 overflow-hidden border border-border p-4">
             <p className="text-xs font-semibold">Impact on CSAT</p>
             <div className="mt-3 space-y-3">
               {[
-                { label: "Delivery delay", value: 88 },
-                { label: "Packaging damage", value: 64 },
-                { label: "Refund friction", value: 42 },
+                { label: "Delivery delay", value: 82 },
+                { label: "Packaging damage", value: 58 },
+                { label: "Refund friction", value: 36 },
               ].map((item) => (
-                <div key={item.label} className="space-y-1.5 text-xs">
-                  <span>{item.label}</span>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div key={item.label} className="min-w-0 space-y-1.5 text-xs">
+                  <span className="block truncate">{item.label}</span>
+                  <div className="h-2 w-full max-w-full overflow-hidden rounded-full bg-muted">
                     <div
-                      className="h-full rounded-full bg-foreground"
+                      className="h-full max-w-full rounded-full bg-foreground"
                       style={{ width: `${item.value}%` }}
                     />
                   </div>
