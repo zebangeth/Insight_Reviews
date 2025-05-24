@@ -293,18 +293,18 @@ export function HomePage() {
                     className="border-b border-r border-border p-4 nth-[2n]:border-r-0 sm:border-b-0 sm:nth-[2n]:border-r sm:last:border-r-0"
                   >
                     <p className="text-xs text-muted-foreground">{label}</p>
-                    <p className="mt-2 whitespace-nowrap leading-none">
-                      <span className="text-2xl font-semibold tabular-nums">{value}</span>
+                    <div className="mt-2 flex h-8 items-center gap-1.5">
+                      <span className="text-2xl font-semibold leading-none tabular-nums">{value}</span>
                       <span
                         className={
                           index === 2
-                            ? "ml-1.5 text-[11px] font-semibold text-red-600"
-                            : "ml-1.5 text-[11px] font-semibold text-emerald-700"
+                            ? "text-[11px] font-semibold leading-none text-red-600"
+                            : "text-[11px] font-semibold leading-none text-emerald-700"
                         }
                       >
                         {delta}
                       </span>
-                    </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -343,7 +343,7 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="grid divide-y divide-border lg:grid-cols-[1fr_1fr_0.8fr] lg:divide-x lg:divide-y-0">
+          <div className="grid divide-y divide-border lg:grid-cols-[1fr_1fr_0.8fr] lg:items-stretch lg:divide-x lg:divide-y-0">
             <ComparisonPanel
               title={language === "zh" ? "之前：人工表格整理" : "Before: Spreadsheet triage"}
               description={language === "zh" ? "手动筛选、分类、复制证据。" : "Manual, inconsistent, time-consuming."}
@@ -354,7 +354,7 @@ export function HomePage() {
               description={language === "zh" ? "AI 将评价转化为清晰洞察与行动。" : "AI turns reviews into clear insights and actions."}
               mode="after"
             />
-            <div className="p-6">
+            <div className="flex h-full flex-col p-6">
               <PackageCheck className="size-9 rounded-full border border-border p-2" aria-hidden="true" />
               <h2 className="mt-4 text-xl font-semibold">
                 {language === "zh" ? "几分钟内开始分析" : "Start your analysis in minutes"}
@@ -442,6 +442,13 @@ export function HomePage() {
   );
 }
 
+const BEFORE_TABLE_ROWS = [
+  ["1001", "2", "Late delivery", "My order arrived 5 days late and no one responded..."],
+  ["1002", "1", "Packaging", "Box was crushed and item inside was damaged..."],
+  ["1003", "3", "Refund process", "Requested a refund but still waiting after 10 days..."],
+  ["1004", "2", "Product quality", "Item quality doesn't match the listing photos..."],
+] as const;
+
 function ComparisonPanel({
   title,
   description,
@@ -452,29 +459,57 @@ function ComparisonPanel({
   mode: "before" | "after";
 }) {
   return (
-    <div className="p-6">
+    <div className="flex h-full min-w-0 flex-col p-6">
       <p className="text-lg font-semibold">{title}</p>
       <p className="mt-1 text-sm text-muted-foreground">{description}</p>
       {mode === "before" ? (
-        <div className="mt-5 overflow-hidden border border-border text-[11px]">
-          {["Review ID", "Rating", "Topic", "Review Text"].map((header) => (
-            <span key={header} className="inline-flex h-9 w-1/4 items-center border-r border-b border-border px-2 font-medium last:border-r-0">
-              {header}
-            </span>
-          ))}
-          {["1001", "2", "Late delivery", "My order arrived 5 days late..."].map((cell) => (
-            <span key={cell} className="inline-flex h-10 w-1/4 items-center border-r border-border px-2 text-muted-foreground last:border-r-0">
-              {cell}
-            </span>
-          ))}
-          {["1002", "1", "Packaging", "Box was crushed and item..."].map((cell) => (
-            <span key={cell} className="inline-flex h-10 w-1/4 items-center border-t border-r border-border px-2 text-muted-foreground last:border-r-0">
-              {cell}
-            </span>
-          ))}
+        <div className="mt-5 flex min-h-[300px] flex-1 flex-col overflow-hidden border border-border text-[11px]">
+          <table className="h-full w-full table-fixed border-collapse">
+            <colgroup>
+              <col className="w-[14%]" />
+              <col className="w-[10%]" />
+              <col className="w-[22%]" />
+              <col className="w-[54%]" />
+            </colgroup>
+            <thead>
+              <tr className="border-b border-border bg-muted/20">
+                {["Review ID", "Rating", "Topic", "Review Text"].map((header) => (
+                  <th
+                    key={header}
+                    className="border-r border-border px-3 py-3 text-left font-medium last:border-r-0"
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="h-full text-muted-foreground">
+              {BEFORE_TABLE_ROWS.map((row) => (
+                <tr key={row[0]} className="border-b border-border">
+                  {row.map((cell, cellIndex) => (
+                    <td
+                      key={`${row[0]}-${cellIndex}`}
+                      className="border-r border-border px-3 py-3 align-middle last:border-r-0"
+                    >
+                      <span
+                        className={
+                          cellIndex === 3 ? "block truncate" : "block whitespace-nowrap"
+                        }
+                      >
+                        {cell}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              <tr aria-hidden="true" className="h-full">
+                <td colSpan={4} className="p-0" />
+              </tr>
+            </tbody>
+          </table>
         </div>
       ) : (
-        <div className="mt-5 grid min-w-0 gap-4 sm:grid-cols-2">
+        <div className="mt-5 grid min-h-[300px] flex-1 min-w-0 gap-4 sm:grid-cols-2">
           <div className="min-w-0 overflow-hidden border border-border p-4">
             <p className="text-xs font-semibold">Key insight</p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -490,7 +525,7 @@ function ComparisonPanel({
                 { label: "Refund friction", value: 36 },
               ].map((item) => (
                 <div key={item.label} className="min-w-0 space-y-1.5 text-xs">
-                  <span className="block truncate">{item.label}</span>
+                  <span className="block">{item.label}</span>
                   <div className="h-2 w-full max-w-full overflow-hidden rounded-full bg-muted">
                     <div
                       className="h-full max-w-full rounded-full bg-foreground"
