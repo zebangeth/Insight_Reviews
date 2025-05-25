@@ -293,17 +293,17 @@ export function HomePage() {
                     className="border-b border-r border-border p-4 nth-[2n]:border-r-0 sm:border-b-0 sm:nth-[2n]:border-r sm:last:border-r-0"
                   >
                     <p className="text-xs text-muted-foreground">{label}</p>
-                    <div className="mt-2 inline-flex items-end gap-1 whitespace-nowrap">
-                      <span className="text-2xl font-semibold leading-none tabular-nums">{value}</span>
-                      <span
+                    <div className="mt-2">
+                      <p className="text-2xl font-semibold leading-none tabular-nums">{value}</p>
+                      <p
                         className={
                           index === 2
-                            ? "mb-1 text-xs font-semibold leading-none text-red-600"
-                            : "mb-1 text-xs font-semibold leading-none text-emerald-700"
+                            ? "mt-1 text-xs font-semibold leading-none text-red-600"
+                            : "mt-1 text-xs font-semibold leading-none text-emerald-700"
                         }
                       >
                         {delta}
-                      </span>
+                      </p>
                     </div>
                   </div>
                 ))}
