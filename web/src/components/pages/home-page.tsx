@@ -466,19 +466,24 @@ function ComparisonPanel({
         <div className="mt-5 flex min-h-[300px] flex-1 flex-col overflow-hidden border border-border text-[11px]">
           <table className="h-full w-full table-fixed border-collapse">
             <colgroup>
-              <col className="w-[14%]" />
-              <col className="w-[10%]" />
-              <col className="w-[22%]" />
-              <col className="w-[54%]" />
+              <col style={{ width: "20%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "26%" }} />
+              <col style={{ width: "40%" }} />
             </colgroup>
             <thead>
               <tr className="border-b border-border bg-muted/20">
-                {["Review ID", "Rating", "Topic", "Review Text"].map((header) => (
+                {[
+                  ["ID", "id"],
+                  ["Rating", "rating"],
+                  ["Topic", "topic"],
+                  ["Review Text", "review"],
+                ].map(([header, key]) => (
                   <th
-                    key={header}
-                    className="border-r border-border px-3 py-3 text-left font-medium last:border-r-0"
+                    key={key}
+                    className="overflow-hidden border-r border-border px-2 py-3 text-left font-medium last:border-r-0 sm:px-3"
                   >
-                    {header}
+                    <span className="block truncate">{header}</span>
                   </th>
                 ))}
               </tr>
@@ -489,11 +494,15 @@ function ComparisonPanel({
                   {row.map((cell, cellIndex) => (
                     <td
                       key={`${row[0]}-${cellIndex}`}
-                      className="border-r border-border px-3 py-3 align-middle last:border-r-0"
+                      className={
+                        cellIndex >= 2
+                          ? "max-w-0 overflow-hidden border-r border-border px-2 py-3 align-middle last:border-r-0 sm:px-3"
+                          : "overflow-hidden border-r border-border px-2 py-3 align-middle last:border-r-0 sm:px-3"
+                      }
                     >
                       <span
                         className={
-                          cellIndex === 3 ? "block truncate" : "block whitespace-nowrap"
+                          cellIndex >= 2 ? "block truncate" : "block whitespace-nowrap"
                         }
                       >
                         {cell}
