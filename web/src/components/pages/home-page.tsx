@@ -8,6 +8,7 @@ import {
   Box,
   Check,
   ChevronRight,
+  CircleX,
   Download,
   FileSpreadsheet,
   Megaphone,
@@ -87,7 +88,7 @@ export function HomePage() {
   return (
     <div className="space-y-16">
       <section className="grid gap-10 lg:grid-cols-[310px_1fr] lg:items-start">
-        <div className="pt-6 lg:sticky lg:top-24">
+        <div className="pt-6">
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
             <Sparkles className="size-3.5 text-foreground" aria-hidden="true" />
             {language === "zh" ? "AI 评价洞察工作台" : "AI review intelligence workspace"}
@@ -343,43 +344,67 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="grid divide-y divide-border lg:grid-cols-[1fr_1fr_0.8fr] lg:items-stretch lg:divide-x lg:divide-y-0">
+        </div>
+
+        <div className="overflow-hidden rounded-lg border border-border bg-background lg:col-span-2">
+          <div className="grid divide-y divide-border lg:grid-cols-[1fr_1fr_0.8fr] lg:divide-x lg:divide-y-0">
             <ComparisonPanel
               title={language === "zh" ? "之前：人工表格整理" : "Before: Spreadsheet triage"}
-              description={language === "zh" ? "手动筛选、分类、复制证据。" : "Manual, inconsistent, time-consuming."}
+              description={
+                language === "zh" ? "手动筛选、分类、复制证据。" : "Manual, inconsistent, time-consuming."
+              }
               mode="before"
             />
             <ComparisonPanel
               title={language === "zh" ? "之后：角色就绪报告" : "After: Stakeholder-ready report"}
-              description={language === "zh" ? "AI 将评价转化为清晰洞察与行动。" : "AI turns reviews into clear insights and actions."}
+              description={
+                language === "zh"
+                  ? "AI 将评价转化为清晰洞察与行动。"
+                  : "AI turns reviews into clear insights and actions."
+              }
               mode="after"
             />
-            <div className="flex h-full flex-col p-6">
-              <PackageCheck className="size-9 rounded-full border border-border p-2" aria-hidden="true" />
-              <h2 className="mt-4 text-xl font-semibold">
-                {language === "zh" ? "几分钟内开始分析" : "Start your analysis in minutes"}
-              </h2>
-              <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-                {features.map((feature) => (
-                  <li key={feature.title} className="flex gap-2">
-                    <Check className="mt-0.5 size-4 shrink-0 text-foreground" aria-hidden="true" />
-                    <span>{feature.title}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-6 rounded-md">
-                <Link href="/try">
-                  {language === "zh" ? "免费体验" : "Try for free"}
+
+            <div className="p-6">
+              <div className="flex h-full flex-col">
+                <PackageCheck
+                  className="size-11 shrink-0 rounded-full border border-border p-2.5"
+                  aria-hidden="true"
+                />
+                <h2 className="mt-5 text-lg font-semibold">
+                  {language === "zh" ? "几分钟内开始分析" : "Start your analysis in minutes"}
+                </h2>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  {language === "zh"
+                    ? "无需信用卡。先获得一份可预览报告。"
+                    : "No credit card required. Get a preview report instantly."}
+                </p>
+                <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+                  {features.map((feature) => (
+                    <li key={feature.title} className="flex gap-2">
+                      <Check className="mt-0.5 size-4 shrink-0 text-foreground" aria-hidden="true" />
+                      <span>{feature.title}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-6 h-10 w-full rounded-md">
+                  <Link href="/try">
+                    {language === "zh" ? "免费体验" : "Try for free"}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Link href="/pricing" className="mt-4 inline-flex items-center gap-2 text-sm font-medium">
+                  {language === "zh" ? "查看定价" : "View pricing"}
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
-              </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <section className="border-y border-border py-10">
-        <p className="text-center text-sm font-medium text-muted-foreground">
+        <p className="text-center text-lg font-semibold tracking-tight text-foreground">
           {language === "zh" ? "真实电商团队正在使用" : "Trusted by ecommerce teams"}
         </p>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -443,10 +468,24 @@ export function HomePage() {
 }
 
 const BEFORE_TABLE_ROWS = [
-  ["1001", "2", "Late delivery", "My order arrived 5 days late and no one responded..."],
-  ["1002", "1", "Packaging", "Box was crushed and item inside was damaged..."],
-  ["1003", "3", "Refund process", "Requested a refund but still waiting after 10 days..."],
-  ["1004", "2", "Product quality", "Item quality doesn't match the listing photos..."],
+  ["1001", "2", "Late delivery", "Arrived 5 days late"],
+  ["1002", "1", "Damaged item", "Box was crushed"],
+  ["1003", "3", "Too small", "Size runs small"],
+] as const;
+
+const AFTER_CSAT_THEMES = [
+  { label: "Delivery delay", value: -14, width: 100 },
+  { label: "Packaging damage", value: -9, width: 72 },
+  { label: "Size mismatch", value: -6, width: 56 },
+  { label: "Refund friction", value: -5, width: 45 },
+  { label: "Product quality", value: -4, width: 36 },
+] as const;
+
+const BEFORE_PAIN_POINTS = [
+  "Hours of manual filtering",
+  "Hard to spot what matters",
+  "No role-specific view",
+  "Slow to share and act",
 ] as const;
 
 function ComparisonPanel({
@@ -460,87 +499,95 @@ function ComparisonPanel({
 }) {
   return (
     <div className="flex h-full min-w-0 flex-col p-6">
-      <p className="text-lg font-semibold">{title}</p>
+      <p className="text-base font-semibold">{title}</p>
       <p className="mt-1 text-sm text-muted-foreground">{description}</p>
       {mode === "before" ? (
-        <div className="mt-5 flex min-h-[300px] flex-1 flex-col overflow-hidden border border-border text-[11px]">
-          <table className="h-full w-full table-fixed border-collapse">
-            <colgroup>
-              <col style={{ width: "20%" }} />
-              <col style={{ width: "14%" }} />
-              <col style={{ width: "26%" }} />
-              <col style={{ width: "40%" }} />
-            </colgroup>
-            <thead>
-              <tr className="border-b border-border bg-muted/20">
-                {[
-                  ["ID", "id"],
-                  ["Rating", "rating"],
-                  ["Topic", "topic"],
-                  ["Review Text", "review"],
-                ].map(([header, key]) => (
-                  <th
-                    key={key}
-                    className="overflow-hidden border-r border-border px-2 py-3 text-left font-medium last:border-r-0 sm:px-3"
-                  >
-                    <span className="block truncate">{header}</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="h-full text-muted-foreground">
-              {BEFORE_TABLE_ROWS.map((row) => (
-                <tr key={row[0]} className="border-b border-border">
-                  {row.map((cell, cellIndex) => (
-                    <td
-                      key={`${row[0]}-${cellIndex}`}
-                      className={
-                        cellIndex >= 2
-                          ? "max-w-0 overflow-hidden border-r border-border px-2 py-3 align-middle last:border-r-0 sm:px-3"
-                          : "overflow-hidden border-r border-border px-2 py-3 align-middle last:border-r-0 sm:px-3"
-                      }
-                    >
-                      <span
-                        className={
-                          cellIndex >= 2 ? "block truncate" : "block whitespace-nowrap"
-                        }
-                      >
-                        {cell}
-                      </span>
-                    </td>
+        <div className="mt-5 flex flex-1 flex-col gap-4">
+          <div className="min-w-0 overflow-hidden border border-border bg-background">
+            <div className="overflow-hidden">
+              <table className="w-full table-fixed border-collapse text-[11px]">
+                <colgroup>
+                  <col className="w-[18%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[28%]" />
+                  <col className="w-[38%]" />
+                </colgroup>
+                <thead>
+                  <tr className="border-b border-border bg-muted/25 text-muted-foreground">
+                    {["Review ID", "Rating", "Title", "Review Text"].map((header) => (
+                      <th key={header} className="px-3 py-2.5 text-left font-medium">
+                        <span className="block truncate">{header}</span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  {BEFORE_TABLE_ROWS.map((row) => (
+                    <tr key={row[0]} className="border-b border-border/70 last:border-b-0">
+                      {row.map((cell, cellIndex) => (
+                        <td key={`${row[0]}-${cellIndex}`} className="px-3 py-3 align-middle">
+                          <span
+                            className={
+                              cellIndex >= 2
+                                ? "block truncate"
+                                : "block whitespace-nowrap tabular-nums"
+                            }
+                          >
+                            {cell}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-              <tr aria-hidden="true" className="h-full">
-                <td colSpan={4} className="p-0" />
-              </tr>
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+            <div className="border-t border-border/70 px-3 py-2">
+              <div className="h-2 w-3/5 rounded-full bg-muted-foreground/25" />
+            </div>
+          </div>
+          <ul className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+            {BEFORE_PAIN_POINTS.map((point) => (
+              <li key={point} className="flex items-start gap-2">
+                <CircleX className="mt-0.5 size-3.5 shrink-0 text-foreground" aria-hidden="true" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       ) : (
-        <div className="mt-5 grid min-h-[300px] flex-1 min-w-0 gap-4 sm:grid-cols-2">
-          <div className="min-w-0 overflow-hidden border border-border p-4">
-            <p className="text-xs font-semibold">Key insight</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <div className="mt-5 grid flex-1 gap-4 sm:grid-cols-[0.75fr_1.25fr]">
+          <div className="border border-border p-4">
+            <p className="text-sm font-semibold">Key insight</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">
               Delivery delay is the top driver of dissatisfaction, impacting CSAT by -14 points.
             </p>
+            <div className="mt-4 border-t border-border pt-3">
+              <p className="text-sm font-semibold">Top action</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Improve delivery ETA accuracy and provide proactive updates.
+              </p>
+            </div>
           </div>
-          <div className="min-w-0 overflow-hidden border border-border p-4">
-            <p className="text-xs font-semibold">Impact on CSAT</p>
-            <div className="mt-3 space-y-3">
-              {[
-                { label: "Delivery delay", value: 82 },
-                { label: "Packaging damage", value: 58 },
-                { label: "Refund friction", value: 36 },
-              ].map((item) => (
-                <div key={item.label} className="min-w-0 space-y-1.5 text-xs">
-                  <span className="block">{item.label}</span>
-                  <div className="h-2 w-full max-w-full overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full max-w-full rounded-full bg-foreground"
-                      style={{ width: `${item.value}%` }}
-                    />
+          <div className="min-w-0 border border-border p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em]">
+              Impact on CSAT by theme
+            </p>
+            <div className="mt-4 space-y-3">
+              {AFTER_CSAT_THEMES.map((item) => (
+                <div key={item.label} className="grid grid-cols-[minmax(0,1fr)_2rem] items-end gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-xs font-medium">{item.label}</p>
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                      <div
+                        className="h-full rounded-full bg-foreground"
+                        style={{ width: `${item.width}%` }}
+                      />
+                    </div>
                   </div>
+                  <span className="pb-0.5 text-right text-xs font-semibold tabular-nums">
+                    {item.value}
+                  </span>
                 </div>
               ))}
             </div>
