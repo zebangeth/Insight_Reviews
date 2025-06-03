@@ -38,19 +38,19 @@ export const CONTACT_COPY: Record<SupportedLanguage, ContactCopy> = {
   zh: {
     pageTitle: "联系我们",
     subtitle:
-      "欢迎预约演示、咨询部署方案或探讨与现有系统的集成方式，我们将在一个工作日内回复您。",
+      "想预约演示、了解部署方案，或讨论和现有系统的集成方式，可以直接联系。",
     addressLabel: "邮箱",
     emailCta: "发送邮件",
     form: {
-      title: "留下您的需求",
+      title: "告诉我们你的场景",
       description:
-        "简单介绍您目前的评价处理流程，我们将提供针对性的建议和演示。",
+        "简单介绍你们目前如何处理评价数据，我们会给出更贴近业务的演示和建议。",
       nameLabel: "称呼",
-      emailLabel: "联系邮箱",
-      messageLabel: "留言内容",
-      submitLabel: "提交",
+      emailLabel: "工作邮箱",
+      messageLabel: "需求说明",
+      submitLabel: "发送",
       fallback:
-        "联系表单加载失败，请直接通过上方邮箱与我们联系。",
+        "联系表单加载失败，请直接通过上方邮箱联系我们。",
     },
   },
 };

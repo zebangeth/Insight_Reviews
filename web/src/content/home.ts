@@ -39,9 +39,9 @@ export const HOME_HERO: Record<
   },
   zh: {
     title: "Insight Reviews",
-    subtitle: "在一分钟内生成覆盖各岗位视角的电商评价分析报告，让决策更快速、更精准。",
-    primaryCta: "立即体验智能分析",
-    secondaryCta: "查看定价方案",
+    subtitle: "上传电商平台导出的评价表，自动生成面向运营、产品、客服和供应链的分析报告。",
+    primaryCta: "开始分析评价",
+    secondaryCta: "查看定价",
   },
 };
 
@@ -65,16 +65,16 @@ export const HOME_FEATURES: Record<SupportedLanguage, Feature[]> = {
   ],
   zh: [
     {
-      title: "人工整理时间缩短 80%",
-      description: "直接上传电商平台导出的原始表格，即刻将繁杂数据转化为结构化洞见。",
+      title: "人工整理少 80%",
+      description: "直接上传平台导出的原始表格，把零散评价转成可阅读、可追踪的洞察。",
     },
     {
-      title: "角色视角的分析故事",
-      description: "运营、产品、客服、供应链团队，分别获取聚焦自身重点的可执行总结。",
+      title: "按团队视角生成报告",
+      description: "运营、产品、客服、供应链各自看到最相关的问题、证据和行动建议。",
     },
     {
-      title: "兼容主流跨境店铺数据",
-      description: "原生支持淘宝、天猫等导出格式，无需额外清洗，且不会在服务器保留您的原始数据。",
+      title: "兼容现有导出流程",
+      description: "支持淘宝、天猫等常见评价导出格式，无需额外清洗，也不保留原始文件。",
     },
   ],
 };
@@ -97,16 +97,16 @@ export const HOME_STEPS: Record<SupportedLanguage, Step[]> = {
   ],
   zh: [
     {
-      title: "上传文件",
-      description: "拖拽导出的 .xlsx 评价表，系统自动校验必要字段并过滤无效评价。",
+      title: "上传",
+      description: "拖入 .xlsx 评价表，系统自动校验字段并过滤空评价。",
     },
     {
-      title: "设定重点",
-      description: "选择关注岗位、分析维度或输入自定义问题，让报告更贴合实际需求。",
+      title: "选择重点",
+      description: "选择报告视角、分析重点，或输入一个具体业务问题。",
     },
     {
-      title: "分析洞见",
-      description: "获得结构化总结，包含关键发现、证据引用与行动建议。",
+      title: "生成报告",
+      description: "得到包含关键发现、证据引用和下一步建议的结构化报告。",
     },
   ],
 };
@@ -128,12 +128,12 @@ export const HOME_TESTIMONIALS: Record<SupportedLanguage, Testimonial[]> = {
   ],
   zh: [
     {
-      quote: "过去要一周手动整理的评价，现在每天都能看到结论，很多原本被忽视的信号都浮现出来了。",
+      quote: "过去要一周手动整理的评价，现在每天都能看到结论，很多原本容易漏掉的信号都浮现出来了。",
       author: "火蝠电商 运营负责人",
       logo: "/images/huofu_logo.png",
     },
     {
-      quote: "客服、物流、产品第一次站在同一份报告上沟通，大家都能快速对齐问题与行动。",
+      quote: "客服、物流、产品终于能围绕同一份报告沟通，问题、证据和行动都更容易对齐。",
       author: "一棵茶树 销售副总裁",
       logo: "/images/teatree_logo.png",
     },
@@ -148,9 +148,9 @@ export const HOME_PLATFORM_SECTION: Record<SupportedLanguage, PlatformSection> =
     imageAlt: "Supported e-commerce platforms",
   },
   zh: {
-    title: "兼容主流电商数据来源",
+    title: "兼容现有电商数据来源",
     description:
-      "无需修改表格即可上传淘宝、天猫等浏览器插件导出的评价。Insight Reviews 会自动识别标准字段并保留原有品牌信息。",
+      "无需修改表格即可上传淘宝、天猫等浏览器插件导出的评价。Insight Reviews 会自动识别标准字段并生成分析报告。",
     imageAlt: "支持的电商平台",
   },
 };

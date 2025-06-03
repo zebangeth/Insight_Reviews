@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION =
 
 export const SITE_TAGLINE: Record<SupportedLanguage, string> = {
   en: "AI insights for e-commerce teams",
-  zh: "为电商团队打造的智能评价洞察",
+  zh: "电商评价智能分析",
 };
 
 export const SUPPORTED_LANGUAGES: ReadonlyArray<{
@@ -31,13 +31,13 @@ export const NAV_LINKS: Record<
     { href: "/", label: "主页" },
     { href: "/try", label: "体验" },
     { href: "/pricing", label: "定价" },
-    { href: "/contact", label: "信息" },
+    { href: "/contact", label: "联系" },
   ],
 };
 
 export const FOOTER_COPY: Record<SupportedLanguage, string> = {
   en: "This site is a functional demo of the commercial Insight Reviews platform. Contact us for production access.",
-  zh: "此站点仅作为 Insight Reviews 商业版的功能演示。如需正式版接入，请联系我们。",
+  zh: "此站点为 Insight Reviews 商业版功能演示。如需正式接入或私有化部署，请联系我们。",
 };
 
 export const COPYRIGHT_NOTICE = "© 2024 Insight Reviews";
