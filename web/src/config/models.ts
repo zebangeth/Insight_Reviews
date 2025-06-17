@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from "@/providers/language-provider";
+import type { SupportedLanguage } from "@/i18n/locale";
 
 export type Provider = "openai" | "anthropic";
 

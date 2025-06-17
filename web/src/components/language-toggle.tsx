@@ -1,6 +1,6 @@
 "use client";
 
-import { SUPPORTED_LANGUAGES } from "@/config/site";
+import { SUPPORTED_LANGUAGES } from "@/i18n/locale";
 import { useLanguage, type SupportedLanguage } from "@/providers/language-provider";
 import {
   Select,

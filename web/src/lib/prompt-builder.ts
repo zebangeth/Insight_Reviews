@@ -4,7 +4,7 @@ import {
   type FocusValue,
   type PositionValue,
 } from "@/config/analysis";
-import type { SupportedLanguage } from "@/providers/language-provider";
+import type { SupportedLanguage } from "@/i18n/locale";
 
 type PromptPieces = {
   system: string;

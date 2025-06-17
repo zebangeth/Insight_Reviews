@@ -3,33 +3,31 @@
 import Link from "next/link";
 import { ArrowRight, Building2, Cloud, ServerCog } from "lucide-react";
 
-import { PRICING_COPY } from "@/content/pricing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/providers/language-provider";
+import { useTranslations } from "@/hooks/use-translations";
 
 const PLAN_ICONS = [Cloud, ServerCog, Building2] as const;
 
 export function PricingPage() {
-  const { language } = useLanguage();
-  const copy = PRICING_COPY[language];
+  const t = useTranslations();
 
   return (
     <div className="space-y-10">
       <header className="border-b border-border pb-10">
         <p className="text-sm font-medium text-muted-foreground">
-          {language === "zh" ? "灵活部署" : "Flexible deployment"}
+          {t.pricing.pageEyebrow}
         </p>
         <h1 className="mt-4 max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
-          {copy.pageTitle}
+          {t.pricing.pageTitle}
         </h1>
         <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground">
-          {copy.subtitle}
+          {t.pricing.subtitle}
         </p>
       </header>
 
       <div className="grid border border-border md:grid-cols-3">
-        {copy.plans.map((plan, index) => {
+        {t.pricing.plans.map((plan, index) => {
           const Icon = PLAN_ICONS[index] ?? Cloud;
 
           return (
@@ -37,7 +35,7 @@ export function PricingPage() {
             key={plan.title}
             className="relative flex min-h-[520px] flex-col border-b border-border bg-background p-6 last:border-b-0 md:border-r md:border-b-0 md:last:border-r-0"
           >
-            {plan.badge && (
+            {"badge" in plan && plan.badge && (
               <div className="absolute top-5 right-5">
                 <Badge className="rounded-full bg-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-background">
                   {plan.badge}
@@ -53,7 +51,7 @@ export function PricingPage() {
                 <p className="mt-4 text-3xl font-semibold tracking-tight">
                   {plan.price}
                 </p>
-                {plan.priceNote && (
+                {"priceNote" in plan && plan.priceNote && (
                   <p className="mt-2 text-xs text-muted-foreground">
                     {plan.priceNote}
                   </p>

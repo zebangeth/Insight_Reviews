@@ -2,7 +2,9 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type SupportedLanguage = "en" | "zh";
+import { STORAGE_KEY, type SupportedLanguage } from "@/i18n/locale";
+
+export type { SupportedLanguage };
 
 type LanguageContextValue = {
   language: SupportedLanguage;
@@ -12,8 +14,6 @@ type LanguageContextValue = {
 const LanguageContext = createContext<LanguageContextValue | undefined>(
   undefined,
 );
-
-const STORAGE_KEY = "insight-reviews.language";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<SupportedLanguage>("en");
@@ -28,6 +28,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       setLanguageState(stored);
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = language;
+    }
+  }, [language]);
 
   const setLanguage = (lang: SupportedLanguage) => {
     setLanguageState(lang);

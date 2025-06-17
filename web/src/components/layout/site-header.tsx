@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, BarChart3 } from "lucide-react";
 
-import { NAV_LINKS, SITE_NAME } from "@/config/site";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,14 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "@/hooks/use-translations";
 import { cn } from "@/lib/utils";
-import { useLanguage } from "@/providers/language-provider";
 
 const SHELL_CLASS =
   "mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-5 sm:px-6";
 
 export function SiteHeader() {
-  const { language } = useLanguage();
+  const t = useTranslations();
   const pathname = usePathname();
 
   return (
@@ -32,12 +31,12 @@ export function SiteHeader() {
             <BarChart3 className="size-4" aria-hidden="true" />
           </span>
           <span className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground">
-            {SITE_NAME}
+            {t.common.siteName}
           </span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS[language].map((item) => {
+          {t.common.nav.map((item) => {
             const active =
               item.href === "/"
                 ? pathname === item.href
@@ -66,7 +65,7 @@ export function SiteHeader() {
           <LanguageToggle />
           <Button asChild className="hidden h-9 rounded-md px-4 text-xs font-semibold sm:inline-flex">
             <Link href="/try">
-              {language === "zh" ? "免费体验" : "Try for free"}
+              {t.common.headerCta}
               <ArrowRight className="size-3.5" aria-hidden="true" />
             </Link>
           </Button>
@@ -77,10 +76,10 @@ export function SiteHeader() {
 }
 
 function MobileNav() {
-  const { language } = useLanguage();
+  const t = useTranslations();
   const pathname = usePathname();
   const router = useRouter();
-  const links = NAV_LINKS[language];
+  const links = t.common.nav;
 
   return (
     <Select

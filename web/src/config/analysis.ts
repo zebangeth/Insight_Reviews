@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from "@/providers/language-provider";
+import type { SupportedLanguage } from "@/i18n/locale";
 
 export type FocusValue =
   | "none"
@@ -17,65 +17,6 @@ export type PositionValue =
   | "product_rd"
   | "quality_control"
   | "logistics";
-
-type Option<T> = {
-  value: T;
-  label: string;
-};
-
-export const ANALYSIS_FOCUS_OPTIONS: Record<
-  SupportedLanguage,
-  ReadonlyArray<Option<FocusValue>>
-> = {
-  en: [
-    { value: "none", label: "None Selected" },
-    { value: "product_features", label: "⚙️ Product Features" },
-    { value: "product_quality", label: "💎 Product Quality" },
-    { value: "design", label: "🎨 Design & Appearance" },
-    { value: "user_experience", label: "🖐️ User Experience" },
-    { value: "pricing", label: "💰 Pricing" },
-    {
-      value: "customer_service",
-      label: "💳 Customer Service & Ordering",
-    },
-    { value: "packaging", label: "📦 Packaging & Logistics" },
-  ],
-  zh: [
-    { value: "none", label: "暂不选择" },
-    { value: "product_features", label: "⚙️ 产品功能" },
-    { value: "product_quality", label: "💎 产品质量" },
-    { value: "design", label: "🎨 产品外观" },
-    { value: "user_experience", label: "🖐️ 使用体验" },
-    { value: "pricing", label: "💰 价格合理性" },
-    {
-      value: "customer_service",
-      label: "💳 客服与下单体验",
-    },
-    { value: "packaging", label: "📦 包装与物流" },
-  ],
-};
-
-export const USER_POSITION_OPTIONS: Record<
-  SupportedLanguage,
-  ReadonlyArray<Option<PositionValue>>
-> = {
-  en: [
-    { value: "none", label: "None Selected" },
-    { value: "operations", label: "👨🏻‍💻 E-commerce Operations" },
-    { value: "customer_service", label: "🤵🏻‍♂️ Customer Service" },
-    { value: "product_rd", label: "👩🏻‍🔬 Product R&D" },
-    { value: "quality_control", label: "👩🏻‍🔧 Production / QC" },
-    { value: "logistics", label: "✈️ Logistics / Supply Chain" },
-  ],
-  zh: [
-    { value: "none", label: "暂不选择" },
-    { value: "operations", label: "👨🏻‍💻 电商运营" },
-    { value: "customer_service", label: "🤵🏻‍♂️ 电商客服" },
-    { value: "product_rd", label: "👩🏻‍🔬 产品研发" },
-    { value: "quality_control", label: "👩🏻‍🔧 生产/质量控制" },
-    { value: "logistics", label: "✈️ 物流/供应链" },
-  ],
-};
 
 export const FOCUS_PROMPTS: Record<
   SupportedLanguage,

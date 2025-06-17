@@ -4,13 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 import { MODEL_OPTIONS, type ModelId } from "@/config/models";
-import {
-  ANALYSIS_FOCUS_OPTIONS,
-  USER_POSITION_OPTIONS,
-  type FocusValue,
-  type PositionValue,
-} from "@/config/analysis";
-import { TRY_COPY } from "@/content/try";
+import type { FocusValue, PositionValue } from "@/config/analysis";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslations } from "@/hooks/use-translations";
 import { useLanguage } from "@/providers/language-provider";
 import type { ReviewEntry } from "@/lib/review-parser";
 import { toast } from "sonner";
@@ -50,12 +45,12 @@ const MODEL_BY_ID = Object.fromEntries(MODEL_OPTIONS.map((option) => [option.id,
 
 export function TryPage() {
   const { language } = useLanguage();
-  const copy = TRY_COPY[language];
-  const focusOptions = ANALYSIS_FOCUS_OPTIONS[language];
-  const positionOptions = USER_POSITION_OPTIONS[language];
+  const t = useTranslations();
+  const focusOptions = t.analysis.focusOptions;
+  const positionOptions = t.analysis.positionOptions;
 
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>("idle");
-  const [statusMessage, setStatusMessage] = useState<string>(copy.status.waitingForFile);
+  const [statusMessage, setStatusMessage] = useState<string>(t.try.status.waitingForFile);
   const [preparedReview, setPreparedReview] = useState<PreparedReview | null>(null);
 
   const [productInfo, setProductInfo] = useState("");
@@ -68,17 +63,17 @@ export function TryPage() {
 
   useEffect(() => {
     if (!preparedReview) {
-      setStatusMessage(copy.status.waitingForFile);
+      setStatusMessage(t.try.status.waitingForFile);
       return;
     }
 
     const message =
       preparedReview.cappedReviews < preparedReview.totalValidReviews
-        ? copy.status.truncated(preparedReview.totalValidReviews, preparedReview.cappedReviews)
-        : copy.status.ready(preparedReview.totalValidReviews);
+        ? t.try.status.truncated(preparedReview.totalValidReviews, preparedReview.cappedReviews)
+        : t.try.status.ready(preparedReview.totalValidReviews);
 
     setStatusMessage(message);
-  }, [copy.status, preparedReview, language]);
+  }, [t.try.status, preparedReview, language]);
 
   const selectedModel = useMemo(() => MODEL_BY_ID[modelId], [modelId]);
 
@@ -91,13 +86,13 @@ export function TryPage() {
 
   const analysisHint = useMemo(() => {
     if (!preparedReview) {
-      return copy.analyze.emptyState;
+      return t.try.analyze.emptyState;
     }
 
     return preparedReview.cappedReviews < preparedReview.totalValidReviews
-      ? copy.status.truncated(preparedReview.totalValidReviews, preparedReview.cappedReviews)
-      : copy.status.ready(preparedReview.totalValidReviews);
-  }, [preparedReview, copy.status, copy.analyze.emptyState]);
+      ? t.try.status.truncated(preparedReview.totalValidReviews, preparedReview.cappedReviews)
+      : t.try.status.ready(preparedReview.totalValidReviews);
+  }, [preparedReview, t.try.status, t.try.analyze.emptyState]);
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -106,7 +101,7 @@ export function TryPage() {
     }
 
     setUploadStatus("uploading");
-    setStatusMessage(copy.status.processing);
+    setStatusMessage(t.try.status.processing);
     setPreparedReview(null);
     setAnalysisResult("");
 
@@ -124,11 +119,11 @@ export function TryPage() {
         const errorBody = await response.json().catch(() => ({}));
 
         if (errorBody?.error === "missing-columns" && Array.isArray(errorBody.missingColumns)) {
-          setStatusMessage(copy.status.missingColumns(errorBody.missingColumns));
+          setStatusMessage(t.try.status.missingColumns(errorBody.missingColumns));
         } else if (errorBody?.error === "no-valid-rows") {
-          setStatusMessage(copy.status.noValidRows);
+          setStatusMessage(t.try.status.noValidRows);
         } else {
-          setStatusMessage(copy.status.invalidFile);
+          setStatusMessage(t.try.status.invalidFile);
         }
 
         setUploadStatus("error");
@@ -155,7 +150,7 @@ export function TryPage() {
     } catch (error) {
       console.error("Upload error", error);
       setUploadStatus("error");
-      setStatusMessage(copy.status.invalidFile);
+      setStatusMessage(t.try.status.invalidFile);
     } finally {
       event.target.value = "";
     }
@@ -163,7 +158,7 @@ export function TryPage() {
 
   async function handleAnalyze() {
     if (!preparedReview || !selectedModel) {
-      toast.error(copy.status.waitingForFile);
+      toast.error(t.try.status.waitingForFile);
       return;
     }
 
@@ -174,7 +169,7 @@ export function TryPage() {
       .slice(0, effectiveReviewCount);
 
     if (reviewLines.length === 0) {
-      toast.error(copy.status.noValidRows);
+      toast.error(t.try.status.noValidRows);
       return;
     }
 
@@ -201,16 +196,16 @@ export function TryPage() {
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
-        toast.error(errorBody?.message ?? "Analysis failed.");
+        toast.error(errorBody?.message ?? t.try.toast.analysisFailed);
         return;
       }
 
       const result = await response.json();
       setAnalysisResult(result.text);
-      toast.success(language === "zh" ? "分析已完成" : "Analysis completed");
+      toast.success(t.try.toast.analysisCompleted);
     } catch (error) {
       console.error("Analysis error", error);
-      toast.error(language === "zh" ? "分析过程中出现错误" : "An error occurred during analysis");
+      toast.error(t.try.toast.analysisError);
     } finally {
       setIsAnalyzing(false);
     }
@@ -220,30 +215,26 @@ export function TryPage() {
     <div className="space-y-10">
       <header className="border-b border-border pb-10">
         <p className="text-sm font-medium text-muted-foreground">
-          {language === "zh" ? "产品体验" : "Product trial"}
+          {t.try.pageEyebrow}
         </p>
         <h1 className="mt-4 max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl">
-          {copy.pageTitle}
+          {t.try.pageTitle}
         </h1>
         <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground">
-          {copy.subtitle}
+          {t.try.subtitle}
         </p>
       </header>
 
       <div className="grid gap-8">
         <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
-            <CardTitle>{copy.upload.title}</CardTitle>
-            <CardDescription>{copy.upload.description}</CardDescription>
+            <CardTitle>{t.try.upload.title}</CardTitle>
+            <CardDescription>{t.try.upload.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex flex-col gap-3 rounded-md border border-dashed border-border bg-muted/25 p-6">
               <label className="flex flex-col gap-3 text-sm font-medium">
-                <span>
-                  {language === "zh"
-                    ? "上传文件（仅支持 .xlsx）"
-                    : "Upload file (.xlsx only)"}
-                </span>
+                <span>{t.try.uploadFileLabel}</span>
                 <Input
                   type="file"
                   accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -261,17 +252,17 @@ export function TryPage() {
 
             <div className="rounded-md border border-border bg-muted/25 p-5 text-sm leading-relaxed text-muted-foreground">
               <ol className="list-decimal space-y-2 pl-5">
-                {copy.upload.instructions.map((instruction) => (
+                {t.try.upload.instructions.map((instruction) => (
                   <li key={instruction}>{instruction}</li>
                 ))}
               </ol>
               <p className="mt-3 text-xs">
-                {copy.upload.helper}
+                {t.try.upload.helper}
               </p>
               <div className="relative mt-4 overflow-hidden rounded-md border border-border bg-background p-3">
                 <Image
                   src="/images/Compatible_Browswer_Extensions.png"
-                  alt={language === "zh" ? "兼容的浏览器插件" : "Compatible browser extensions"}
+                  alt={t.try.extensionImageAlt}
                   width={960}
                   height={600}
                   className="h-auto w-full object-contain"
@@ -282,11 +273,11 @@ export function TryPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-base font-semibold">
-                  {copy.previewLabel}
+                  {t.try.previewLabel}
                 </h3>
                 {preparedReview && (
                   <span className="text-xs font-medium uppercase tracking-wide text-primary/80">
-                    {copy.reviewCountLabel(effectiveReviewCount)}
+                    {t.try.reviewCountLabel(effectiveReviewCount)}
                   </span>
                 )}
               </div>
@@ -306,7 +297,7 @@ export function TryPage() {
                   </ul>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    {copy.previewEmpty}
+                    {t.try.previewEmpty}
                   </p>
                 )}
               </div>
@@ -316,21 +307,21 @@ export function TryPage() {
 
         <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
-            <CardTitle>{copy.configure.title}</CardTitle>
-            <CardDescription>{copy.configure.description}</CardDescription>
+            <CardTitle>{t.try.configure.title}</CardTitle>
+            <CardDescription>{t.try.configure.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-2 text-sm font-medium">
-                <span>{copy.configure.productLabel}</span>
+                <span>{t.try.configure.productLabel}</span>
                 <Input
                   value={productInfo}
                   onChange={(event) => setProductInfo(event.target.value)}
-                  placeholder={copy.configure.productPlaceholder}
+                  placeholder={t.try.configure.productPlaceholder}
                 />
               </label>
               <label className="space-y-2 text-sm font-medium">
-                <span>{copy.configure.modelLabel}</span>
+                <span>{t.try.configure.modelLabel}</span>
                 <Select
                   value={modelId}
                   onValueChange={(value) => setModelId(value as ModelId)}
@@ -347,14 +338,14 @@ export function TryPage() {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">
-                  {selectedModel?.helper[language] ?? copy.configure.modelHelper}
+                  {selectedModel?.helper[language] ?? t.try.configure.modelHelper}
                 </p>
               </label>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-2 text-sm font-medium">
-                <span>{copy.configure.focusLabel}</span>
+                <span>{t.try.configure.focusLabel}</span>
                 <Select
                   value={focus}
                   onValueChange={(value) => setFocus(value as FocusValue)}
@@ -372,7 +363,7 @@ export function TryPage() {
                 </Select>
               </label>
               <label className="space-y-2 text-sm font-medium">
-                <span>{copy.configure.positionLabel}</span>
+                <span>{t.try.configure.positionLabel}</span>
                 <Select
                   value={position}
                   onValueChange={(value) => setPosition(value as PositionValue)}
@@ -392,15 +383,15 @@ export function TryPage() {
             </div>
 
             <label className="space-y-2 text-sm font-medium">
-              <span>{copy.configure.questionLabel}</span>
+              <span>{t.try.configure.questionLabel}</span>
               <Textarea
                 value={question}
                 onChange={(event) => setQuestion(event.target.value)}
-                placeholder={copy.configure.questionPlaceholder}
+                placeholder={t.try.configure.questionPlaceholder}
                 rows={3}
               />
               <p className="text-xs text-muted-foreground">
-                {copy.configure.questionHelper}
+                {t.try.configure.questionHelper}
               </p>
             </label>
           </CardContent>
@@ -408,7 +399,7 @@ export function TryPage() {
 
         <Card className="rounded-lg border-border bg-background shadow-none">
           <CardHeader>
-            <CardTitle>{copy.analyze.title}</CardTitle>
+            <CardTitle>{t.try.analyze.title}</CardTitle>
             <CardDescription>{analysisHint}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -417,25 +408,25 @@ export function TryPage() {
                 onClick={handleAnalyze}
                 disabled={!preparedReview || isAnalyzing}
               >
-                {isAnalyzing ? copy.analyze.loading : copy.analyze.button}
+                {isAnalyzing ? t.try.analyze.loading : t.try.analyze.button}
               </Button>
               <span className="text-xs text-muted-foreground">
-                {copy.reviewCountLabel(effectiveReviewCount)}
+                {t.try.reviewCountLabel(effectiveReviewCount)}
               </span>
             </div>
             <Separator />
             <div className="space-y-4">
-              <h3 className="text-base font-semibold">{copy.analyze.resultLabel}</h3>
+              <h3 className="text-base font-semibold">{t.try.analyze.resultLabel}</h3>
               {analysisResult ? (
                 <pre className="max-h-[520px] overflow-auto rounded-md border border-border bg-muted/25 p-4 text-sm leading-relaxed">
                   {analysisResult}
                 </pre>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  {copy.analyze.emptyState}
+                  {t.try.analyze.emptyState}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground">{copy.shareHint}</p>
+              <p className="text-xs text-muted-foreground">{t.try.shareHint}</p>
             </div>
           </CardContent>
         </Card>

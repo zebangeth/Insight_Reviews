@@ -8,7 +8,7 @@ import {
   REVIEW_NUM_CAP,
 } from "@/lib/constants";
 import { parseReviewFile } from "@/lib/review-parser";
-import type { SupportedLanguage } from "@/providers/language-provider";
+import type { SupportedLanguage } from "@/i18n/locale";
 
 const payloadSchema = z.object({
   language: z.union([z.literal("en"), z.literal("zh")]).default("en"),
