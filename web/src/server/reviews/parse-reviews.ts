@@ -1,3 +1,5 @@
+import "server-only";
+
 import { read, SSF, utils } from "xlsx";
 
 import {
@@ -5,34 +7,9 @@ import {
   REQUIRED_COLUMNS,
   REVIEW_NUM_CAP,
 } from "@/lib/constants";
+import type { ParseResult, ReviewEntry } from "@/lib/review-types";
 
 type RawRow = Record<string, unknown>;
-
-export type ReviewEntry = {
-  index: number;
-  sku: string;
-  date: string;
-  firstReview: string;
-  additionalReview: string;
-  combined: string;
-};
-
-export type ParseSuccess = {
-  ok: true;
-  totalRows: number;
-  totalValidReviews: number;
-  cappedReviews: number;
-  reviewText: string;
-  preview: ReviewEntry[];
-};
-
-export type ParseFailure = {
-  ok: false;
-  reason: "missing-columns" | "no-valid-rows" | "invalid-file";
-  missingColumns?: string[];
-};
-
-export type ParseResult = ParseSuccess | ParseFailure;
 
 export function parseReviewFile(buffer: ArrayBuffer): ParseResult {
   let workbook;

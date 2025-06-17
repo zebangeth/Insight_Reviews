@@ -1,15 +1,12 @@
-import {
-  FOCUS_PROMPTS,
-  POSITION_PROMPTS,
-  type FocusValue,
-  type PositionValue,
-} from "@/config/analysis";
+import "server-only";
+
+import { FOCUS_PROMPTS, POSITION_PROMPTS } from "@/server/analysis/prompts";
+import type { FocusValue, PositionValue } from "@/config/analysis";
 import type { SupportedLanguage } from "@/i18n/locale";
 
 type PromptPieces = {
   system: string;
   user: string;
-  complete: string;
 };
 
 type PromptInput = {
@@ -34,7 +31,7 @@ export function buildPrompt({
   const trimmedProduct = productInfo.trim() || (language === "zh" ? "该" : "this");
   const base = language === "zh" ? buildChinesePrompt : buildEnglishPrompt;
 
-  const { system, user } = base({
+  return base({
     productInfo: trimmedProduct,
     reviewCount,
     reviewText,
@@ -42,12 +39,6 @@ export function buildPrompt({
     position,
     question,
   });
-
-  return {
-    system,
-    user,
-    complete: `${system}${user}`,
-  };
 }
 
 type BuildPromptPayload = {
@@ -66,7 +57,7 @@ function buildChinesePrompt({
   focus,
   position,
   question,
-}: BuildPromptPayload) {
+}: BuildPromptPayload): PromptPieces {
   const commonIntro = `你是一名资深的电商评价分析师。
 你的任务是根据用户提供的电商客户评价列表分析这款 ${productInfo} 产品在淘宝平台上的最近${reviewCount}条产品评价。
 分析过程中的注意事项如下：`;
@@ -111,7 +102,7 @@ function buildEnglishPrompt({
   focus,
   position,
   question,
-}: BuildPromptPayload) {
+}: BuildPromptPayload): PromptPieces {
   const commonIntro = `You are a seasoned e-commerce review analyst.
 Your task is to analyze the most recent ${reviewCount} product reviews for the ${productInfo} product on the Taobao platform.
 Keep these guidelines in mind:`;

@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "@/hooks/use-translations";
 import { useLanguage } from "@/providers/language-provider";
-import type { ReviewEntry } from "@/lib/review-parser";
+import type { ReviewEntry } from "@/lib/review-types";
 import { toast } from "sonner";
 
 type UploadStatus = "idle" | "uploading" | "ready" | "error";

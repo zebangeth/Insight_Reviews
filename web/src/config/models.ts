@@ -7,6 +7,12 @@ export type ModelId =
   | "anthropic:claude-3-haiku-20240307"
   | "anthropic:claude-3-sonnet-20240229";
 
+export const MODEL_IDS = [
+  "openai:gpt-4o-mini",
+  "anthropic:claude-3-haiku-20240307",
+  "anthropic:claude-3-sonnet-20240229",
+] as const satisfies readonly ModelId[];
+
 type ModelDescriptor = {
   id: ModelId;
   provider: Provider;
