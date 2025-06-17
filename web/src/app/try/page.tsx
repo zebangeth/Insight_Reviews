@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { TryPage } from "@/components/pages/try-page";
+import { TryPage } from "@/features/try/try-page";
 
 export const metadata: Metadata = {
   title: "Try Insight Reviews",

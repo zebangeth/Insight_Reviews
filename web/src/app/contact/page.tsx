@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ContactPage } from "@/components/pages/contact-page";
+import { ContactPage } from "@/features/contact/contact-page";
 
 export const metadata: Metadata = {
   title: "Contact · Insight Reviews",
